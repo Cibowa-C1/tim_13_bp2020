@@ -14,6 +14,7 @@ import model.Column;
 import model.Database;
 import model.Row;
 import model.Table;
+import view.MainFrame;
 
 public class AppCore{
 
@@ -25,7 +26,7 @@ public class AppCore{
 	public static void main(String[] args) {
 		
 		try {
-
+			
 			Connection connection = DriverManager.getConnection(url,username,pass);
 			System.out.println("Uspeh");
 			DatabaseMetaData dmd = connection.getMetaData();
@@ -56,6 +57,7 @@ public class AppCore{
 	                    }
 	                }
 			}
+		MainFrame.getInstance(database).setVisible(true);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

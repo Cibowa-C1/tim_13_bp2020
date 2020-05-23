@@ -77,8 +77,15 @@ public class MainFrame extends JFrame{
 		}
 	}
 	
+	public static MainFrame getInstance(Database a) {
+		if(instance==null) {
+			instance = new MainFrame();
+			instance.initialize(a);
+		}
+		return instance;
+	}
 	public static MainFrame getInstance() {
-		if(instance==null)
+		if(instance==null) 
 			instance = new MainFrame();
 		return instance;
 	}
