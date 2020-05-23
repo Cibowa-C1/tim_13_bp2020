@@ -19,6 +19,10 @@ public class Column implements MutableTreeNode {
 		this.name = name;
 		rows = new ArrayList<Row>();
 	}
+	@Override
+	public String toString() {
+		return name;
+	}
 	
 	public void addRow(Row r) {
 		rows.add(r);
@@ -31,7 +35,7 @@ public class Column implements MutableTreeNode {
 
 	@Override
 	public TreeNode getChildAt(int childIndex) {
-		return rows.get(childIndex);
+		return null;
 	}
 
 	@Override

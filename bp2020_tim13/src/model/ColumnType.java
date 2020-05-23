@@ -1,45 +1,28 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-public class Database implements MutableTreeNode {
+public class ColumnType implements MutableTreeNode {
 	
-	private List<Table> children;
-	private String name;
+	private ColumnTypeEnum type;
 	
-	
+	Column col;
 
-	public Database(String name) {
-		this.name = name;
-		children = new ArrayList<Table>();
+	public ColumnType(ColumnTypeEnum type,Column col) {
+		this.type = type;
+		this.col = col;
 	}
-	
-	public String getName() {
-		return name;
-	}
-	public void addTable(Table t) {
-		children.add(t);
-		t.setParent(this);
-	}
-	@Override
-	public String toString() {
-		
-		return name;
-	}
-
+@Override
+public String toString() {
+	return type.toString();
+}
 	@Override
 	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	public List<Table> getChildren() {
-		return children;
 	}
 
 	@Override
@@ -92,7 +75,7 @@ public class Database implements MutableTreeNode {
 
 	@Override
 	public void remove(MutableTreeNode node) {
-		children.add((Table) node);
+		// TODO Auto-generated method stub
 
 	}
 

@@ -24,6 +24,11 @@ public class Table implements MutableTreeNode {
 		children.add(c);
 		c.setParent(this);
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 
 	public String getName() {
 		return name;
