@@ -5,12 +5,14 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.SwingUtilities;
 
 import database.connection.SQLConnection;
 import model.Column;
 import model.Database;
+import model.Row;
 import model.Table;
 
 public class AppCore{
@@ -44,6 +46,14 @@ public class AppCore{
 	                    Column column = new Column(columnName);
 	                    String columnType = columns.getString("TYPE_NAME");
 	                    table.addColumn(column);
+	                    Statement st = connection.createStatement();
+	                    String query = "SELECT " + columnName + " FROM " + tableName;
+	                    ResultSet rs = st.executeQuery(query);
+	                    while(rs.next()) {
+	                    	Object sadrzaj = rs.getObject(columnName);
+	                    	Row row = new Row(sadrzaj);
+	                    	column.addRow(row);
+	                    }
 	                }
 			}
 		} catch (SQLException e) {

@@ -8,12 +8,12 @@ import javax.swing.tree.TreeNode;
 public class Row {
 	
 	private Column parent;
-	private String sadrzaj;
+	private Object sadrzaj;
 	
-	 public Row(String sadrzaj) {
+	 public Row(Object sadrzaj) {
 		this.sadrzaj = sadrzaj;
 	}
-	 public String getSadrzaj() {
+	 public Object getSadrzaj() {
 		return sadrzaj;
 	}
 	 public Column getParent() {
@@ -21,5 +21,9 @@ public class Row {
 	}
 	 public void setParent(Column parent) {
 		this.parent = parent;
+	}
+	 @Override
+	public String toString() {
+		return sadrzaj.toString();
 	}
 }

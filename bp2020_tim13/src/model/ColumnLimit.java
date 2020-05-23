@@ -5,13 +5,13 @@ import java.util.Enumeration;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-public class ColumnType implements MutableTreeNode {
+public class ColumnLimit implements MutableTreeNode {
 	
-	private ColumnTypeEnum type;
+	private ColumnLimitsEnum type;
 	
 	Column col;
 
-	public ColumnType(ColumnTypeEnum type,Column col) {
+	public ColumnLimit(ColumnLimitsEnum type,Column col) {
 		this.type = type;
 		this.col = col;
 	}
