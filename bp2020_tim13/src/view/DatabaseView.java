@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import model.Database;
@@ -12,6 +13,7 @@ import model.Table;
 
 public class DatabaseView extends JPanel {
 		
+		private JScrollPane scroll;
 		private TableView tableView;
 		private Database dataBase;
 		private JTabbedPane jtp;
@@ -25,11 +27,20 @@ public class DatabaseView extends JPanel {
 				jtp = new JTabbedPane();
 				for(Table t : dataBase.getChildren()) {
 					tableView = new TableView(t);
+					tableView.setPreferredScrollableViewportSize(new Dimension(500, 400));
+					tableView.setFillsViewportHeight(true);
 					tables.add(tableView);
-					jtp.addTab(t.getName(), tableView);
+					scroll = new JScrollPane();
+					scroll.add(tableView);
+					jtp.addTab(t.getName(), scroll);
 				}
 				jtp.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 				this.add(jtp);
 			}
 		}
+
+		public ArrayList<TableView> getTables() {
+			return tables;
+		}
+		
 }
