@@ -8,7 +8,6 @@ public class Toolbar extends JToolBar{
 		add(MainFrame.getInstance().getAm().getRefresh());
 		add(MainFrame.getInstance().getAm().getDelete());
 		add(MainFrame.getInstance().getAm().getAdd());
-		add(MainFrame.getInstance().getAm().getCommit());
 	}
 
 }

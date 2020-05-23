@@ -49,12 +49,12 @@ public class AppCore{
 	                    table.addColumn(column);
 	                    Statement st = connection.createStatement();
 	                    String query = "SELECT " + columnName + " FROM " + tableName;
-	                    ResultSet rs = st.executeQuery(query);
-	                    while(rs.next()) {
-	                    	Object sadrzaj = rs.getObject(columnName);
-	                    	Row row = new Row(sadrzaj);
-	                    	column.addRow(row);
-	                    }
+	                    //ResultSet rs = st.executeQuery(query);
+	                    //while(rs.next()) {
+	                    //	Object sadrzaj = rs.getObject(columnName);
+	                   // 	Row row = new Row(sadrzaj);
+	                   // 	column.addRow(row);
+	                   // }
 	                }
 			}
 		MainFrame.getInstance(database).setVisible(true);

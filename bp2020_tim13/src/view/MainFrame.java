@@ -5,6 +5,12 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import controller.ActionManager;
 import model.Database;
@@ -15,6 +21,7 @@ import view.treeDatabase.DatabaseTree;
 
 public class MainFrame extends JFrame{
 
+	private JSplitPane split;
 	private JPanel upperView;
 	private JPanel lowerView;
 	private TableView tv;
@@ -22,6 +29,10 @@ public class MainFrame extends JFrame{
 	private DatabaseTree dt;
 	private DatabaseTreeModel dtm;
 	private ActionManager am;
+	private Toolkit toolkit;
+	private Dimension dim;
+	private JScrollPane left;
+
 	
 	private static MainFrame instance = null;
 	
@@ -37,7 +48,19 @@ public class MainFrame extends JFrame{
 
 	private void initializeGUI() {
 		
+		toolkit = Toolkit.getDefaultToolkit();
+		dim = toolkit.getScreenSize();
 		
+		upperView = new JPanel();
+		Dimension dims = new Dimension(830,740);
+		upperView.setPreferredSize(dims);
+		left = new JScrollPane(dt);
+		split = new JSplitPane(SwingConstants.VERTICAL,left,upperView);
+		this.add(split);
+		this.setSize(1300, 800);
+		this.setLocationRelativeTo(null);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setTitle("Database-Viewer");
 	}
 	
 	private void initialize(Database d) {
@@ -71,6 +94,8 @@ public class MainFrame extends JFrame{
 			if(ms.getClickCount()==2) {
 				Object o = dt.getLastSelectedPathComponent();
 				if(o instanceof Table) {
+					upperView.removeAll();
+					upperView.updateUI();
 					
 				}
 			}

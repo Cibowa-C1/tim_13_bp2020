@@ -25,20 +25,21 @@ public class DatabaseView extends JPanel {
 				dataBase = (Database)d;
 				this.dataBase = d;
 				jtp = new JTabbedPane();
-				for(Table t : dataBase.getChildren()) {
-					tableView = new TableView(t);
-					tableView.setPreferredScrollableViewportSize(new Dimension(500, 400));
-					tableView.setFillsViewportHeight(true);
-					tables.add(tableView);
-					scroll = new JScrollPane();
-					scroll.add(tableView);
-					jtp.addTab(t.getName(), scroll);
-				}
 				jtp.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 				this.add(jtp);
 			}
 		}
-
+		public void addTab(Table t) {
+			scroll = new JScrollPane();
+			tableView = new TableView(t);
+			tableView.setPreferredScrollableViewportSize(new Dimension(500, 400));
+			tableView.setFillsViewportHeight(true);
+			tables.add(tableView);
+			scroll.add(tableView);
+			jtp.addTab(t.getName(), scroll);
+			
+			this.updateUI();
+		}
 		public ArrayList<TableView> getTables() {
 			return tables;
 		}

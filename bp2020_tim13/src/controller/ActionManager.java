@@ -3,7 +3,6 @@ package controller;
 public class ActionManager {
 	
 	private AddAction add;
-	private CommitAction commit;
 	private DeleteAction delete;
 	private RefreshAction refresh;
 	
@@ -15,7 +14,6 @@ public class ActionManager {
 
 	private void initActions() {
 		add = new AddAction();
-		commit = new CommitAction();
 		delete = new DeleteAction();
 		refresh = new RefreshAction();
 	}
@@ -24,9 +22,6 @@ public class ActionManager {
 		return add;
 	}
 
-	public CommitAction getCommit() {
-		return commit;
-	}
 
 	public DeleteAction getDelete() {
 		return delete;
