@@ -22,6 +22,9 @@ public class Database implements MutableTreeNode {
 	public String getName() {
 		return name;
 	}
+	public void addTable(Table t) {
+		children.add(t);
+	}
 
 	@Override
 	public TreeNode getChildAt(int childIndex) {

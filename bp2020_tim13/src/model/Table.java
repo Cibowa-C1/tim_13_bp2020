@@ -19,6 +19,10 @@ public class Table implements MutableTreeNode {
 		this.name = name;
 		children = new ArrayList<Column>();
 	}
+	
+	public void addColumn(Column c) {
+		children.add(c);
+	}
 
 	public String getName() {
 		return name;

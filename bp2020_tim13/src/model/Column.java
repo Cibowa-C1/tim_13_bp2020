@@ -20,6 +20,10 @@ public class Column implements MutableTreeNode {
 		rows = new ArrayList<Row>();
 	}
 	
+	public void addRow(Row r) {
+		rows.add(r);
+	}
+	
 	public String getName() {
 		return name;
 	}
