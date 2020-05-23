@@ -43,8 +43,8 @@ public class AppCore{
 	                while (columns.next()){
 
 	                    String columnName = columns.getString("COLUMN_NAME");
-	                    Column column = new Column(columnName);
 	                    String columnType = columns.getString("TYPE_NAME");
+	                    Column column = new Column(columnName,columnType);
 	                    table.addColumn(column);
 	                    Statement st = connection.createStatement();
 	                    String query = "SELECT " + columnName + " FROM " + tableName;

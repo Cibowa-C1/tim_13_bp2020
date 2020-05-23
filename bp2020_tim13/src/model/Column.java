@@ -12,12 +12,40 @@ public class Column implements MutableTreeNode {
 	private Table parent;
 	private List<Row> rows;
 	private String name;
+	private ColumnType type;
+	private List<ColumnLimit> limits;
 	
 	
-	
-	public Column(String name) {
+	public Column(String name,String type) {
 		this.name = name;
+		if(type.equals(ColumnType.CHAR)) this.type = ColumnType.CHAR;
+		else if(type.equals(ColumnType.VARCHAR)) this.type = ColumnType.VARCHAR;													
+		else if(type.equals(ColumnType.TEXT)) this.type = ColumnType.TEXT; 
+		else if(type.equals(ColumnType.DATE)) this.type = ColumnType.DATE;  
+		else if(type.equals(ColumnType.TIME)) this.type = ColumnType.TIME; 
+		else if(type.equals(ColumnType.DATETIME)) this.type = ColumnType.DATETIME; 
+		else if(type.equals(ColumnType.FLOAT)) this.type = ColumnType.FLOAT; 
+		else if(type.equals(ColumnType.REAL)) this.type = ColumnType.REAL;   
+		else if(type.equals(ColumnType.BIT)) this.type = ColumnType.BIT; 
+		else if(type.equals(ColumnType.BIGINT)) this.type = ColumnType.BIGINT; 
+		else if(type.equals(ColumnType.NUMERIC)) this.type = ColumnType.NUMERIC; 
+		else if(type.equals(ColumnType.DECIMAL)) this.type = ColumnType.DECIMAL;    
+		else if(type.equals(ColumnType.INT)) this.type = ColumnType.INT; 
+		else if(type.equals(ColumnType.IMAGE)) this.type = ColumnType.IMAGE; 
+		else if(type.equals(ColumnType.SMALLINT)) this.type = ColumnType.SMALLINT; 
+		else if(type.equals(ColumnType.NVARCHAR)) this.type = ColumnType.NVARCHAR; 
 		rows = new ArrayList<Row>();
+		limits = new ArrayList<ColumnLimit>();
+	}
+	
+	public List<ColumnLimit> getLimits() {
+		return limits;
+	}
+	public ColumnType getType() {
+		return type;
+	}
+	public void addLimit(ColumnLimit c) {
+		limits.add(c);
 	}
 	@Override
 	public String toString() {
