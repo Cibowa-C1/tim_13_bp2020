@@ -9,7 +9,19 @@ import javax.swing.tree.TreeNode;
 
 public class Database implements MutableTreeNode {
 	
-	List<Table> children = new ArrayList<Table>();
+	private List<Table> children;
+	private String name;
+	
+	
+
+	public Database(String name) {
+		this.name = name;
+		children = new ArrayList<Table>();
+	}
+	
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public TreeNode getChildAt(int childIndex) {

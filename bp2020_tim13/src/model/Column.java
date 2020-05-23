@@ -10,8 +10,20 @@ import javax.swing.tree.TreeNode;
 public class Column implements MutableTreeNode {
 
 	private Table parent;
-	private List<Row> rows = new ArrayList<Row>();
+	private List<Row> rows;
+	private String name;
 	
+	
+	
+	public Column(String name) {
+		this.name = name;
+		rows = new ArrayList<Row>();
+	}
+	
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public TreeNode getChildAt(int childIndex) {
 		return rows.get(childIndex);

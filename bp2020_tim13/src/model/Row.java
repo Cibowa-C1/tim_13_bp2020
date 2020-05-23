@@ -8,11 +8,14 @@ import javax.swing.tree.TreeNode;
 public class Row implements MutableTreeNode{
 	
 	private Column parent;
+	private String sadrzaj;
 	
-	 public Row() {
-		
+	 public Row(String sadrzaj) {
+		this.sadrzaj = sadrzaj;
 	}
-	 
+	 public String getSadrzaj() {
+		return sadrzaj;
+	}
 
 	@Override
 	public TreeNode getChildAt(int childIndex) {

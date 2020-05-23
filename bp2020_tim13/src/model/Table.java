@@ -9,9 +9,20 @@ import javax.swing.tree.TreeNode;
 
 public class Table implements MutableTreeNode {
 	
-	Database parent;
-	List<Column> children = new ArrayList<Column>();
+	private Database parent;
+	private List<Column> children = new ArrayList<Column>();
+	private String name;
+	
+	
 
+	public Table(String name) {
+		this.name = name;
+		children = new ArrayList<Column>();
+	}
+
+	public String getName() {
+		return name;
+	}
 	@Override
 	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
