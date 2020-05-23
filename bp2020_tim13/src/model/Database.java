@@ -24,6 +24,7 @@ public class Database implements MutableTreeNode {
 	}
 	public void addTable(Table t) {
 		children.add(t);
+		t.setParent(this);
 	}
 
 	@Override

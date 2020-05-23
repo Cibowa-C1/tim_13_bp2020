@@ -22,6 +22,7 @@ public class Column implements MutableTreeNode {
 	
 	public void addRow(Row r) {
 		rows.add(r);
+		r.setParent(this);
 	}
 	
 	public String getName() {

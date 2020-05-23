@@ -22,6 +22,7 @@ public class Table implements MutableTreeNode {
 	
 	public void addColumn(Column c) {
 		children.add(c);
+		c.setParent(this);
 	}
 
 	public String getName() {
