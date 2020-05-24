@@ -12,6 +12,7 @@ public class Table implements MutableTreeNode {
 	private Database parent;
 	private List<Column> children = new ArrayList<Column>();
 	private String name;
+	private List<Row> rows = new ArrayList<Row>();
 	
 	
 
@@ -23,6 +24,14 @@ public class Table implements MutableTreeNode {
 	public void addColumn(Column c) {
 		children.add(c);
 		c.setParent(this);
+	}
+	
+	public List<Row> getRows() {
+		return rows;
+	}
+	
+	public void addRows(Row r) {
+		rows.add(r);
 	}
 	
 	@Override
