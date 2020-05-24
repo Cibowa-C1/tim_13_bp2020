@@ -34,7 +34,7 @@ public class TableView extends JTable {
 
 	private Vector<Row> convert(Column c) {
 		rows = new Vector<Row>();
-		Collections.copy(rows, c.getRows());
+		//Collections.copy(rows, c.getRows());
 		return rows;
 	}
 	

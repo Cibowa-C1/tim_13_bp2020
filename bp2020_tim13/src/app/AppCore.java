@@ -3,7 +3,9 @@ package app;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -47,14 +49,22 @@ public class AppCore{
 	                    String columnType = columns.getString("TYPE_NAME");
 	                    Column column = new Column(columnName,columnType);
 	                    table.addColumn(column);
-	                    Statement st = connection.createStatement();
-	                    String query = "SELECT " + columnName + " FROM " + tableName;
-	                    //ResultSet rs = st.executeQuery(query);
-	                    //while(rs.next()) {
-	                    //	Object sadrzaj = rs.getObject(columnName);
-	                   // 	Row row = new Row(sadrzaj);
-	                   // 	column.addRow(row);
-	                   // }
+	                  
+	                }
+	                String query = "SELECT * FROM " + tableName;
+	                PreparedStatement preparedStatement = connection.prepareStatement(query);
+	                ResultSet rs = preparedStatement.executeQuery();
+
+	                while (rs.next()){
+
+	                    Row row = new Row(tableName);
+
+	                    ResultSetMetaData resultSetMetaData = rs.getMetaData();
+	                    for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+	                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+	                    }
+	                    table.addRows(row);
+
 	                }
 			}
 			for (Table t : database.getChildren()) {

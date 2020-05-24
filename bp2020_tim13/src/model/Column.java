@@ -10,7 +10,6 @@ import javax.swing.tree.TreeNode;
 public class Column implements MutableTreeNode {
 
 	private Table parent;
-	private List<Row> rows;
 	private String name;
 	private ColumnType type;
 	private List<ColumnLimit> limits;
@@ -34,7 +33,6 @@ public class Column implements MutableTreeNode {
 		else if(type.equals(ColumnType.IMAGE)) this.type = ColumnType.IMAGE; 
 		else if(type.equals(ColumnType.SMALLINT)) this.type = ColumnType.SMALLINT; 
 		else if(type.equals(ColumnType.NVARCHAR)) this.type = ColumnType.NVARCHAR; 
-		rows = new ArrayList<Row>();
 		limits = new ArrayList<ColumnLimit>();
 	}
 	
@@ -52,10 +50,6 @@ public class Column implements MutableTreeNode {
 		return name;
 	}
 	
-	public void addRow(Row r) {
-		rows.add(r);
-		r.setParent(this);
-	}
 	
 	public String getName() {
 		return name;
@@ -70,10 +64,7 @@ public class Column implements MutableTreeNode {
 	public int getChildCount() {
 		return limits.size();
 	}
-	public List<Row> getRows() {
-		return rows;
-	}
-
+	
 	@Override
 	public TreeNode getParent() {
 		return parent;

@@ -1,29 +1,27 @@
 package model;
 
-import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
+
 
 public class Row {
 	
-	private Column parent;
-	private Object sadrzaj;
-	
-	 public Row(Object sadrzaj) {
-		this.sadrzaj = sadrzaj;
-	}
-	 public Object getSadrzaj() {
-		return sadrzaj;
-	}
-	 public Column getParent() {
-		return parent;
-	}
-	 public void setParent(Column parent) {
-		this.parent = parent;
-	}
-	 @Override
-	public String toString() {
-		return sadrzaj.toString();
-	}
+	 private String name;
+	    private Map<String, Object> fields;
+
+
+	    public Row(String name) {
+	        this.fields = new HashMap<>();
+	        this.name = name;
+	    }
+
+	    public void addField(String fieldName, Object value) {
+	        this.fields.put(fieldName, value);
+	    }
+
+	    public void removeField(String fieldName) {
+	        this.fields.remove(fieldName);
+	    }
+	    
 }
