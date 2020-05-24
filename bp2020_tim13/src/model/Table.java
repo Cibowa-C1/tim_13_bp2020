@@ -35,8 +35,7 @@ public class Table implements MutableTreeNode {
 	}
 	@Override
 	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		return children.get(childIndex);
 	}
 
 	public List<Column> getChildren() {
@@ -45,26 +44,22 @@ public class Table implements MutableTreeNode {
 	
 	@Override
 	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return children.size();
 	}
 
 	@Override
 	public TreeNode getParent() {
-		// TODO Auto-generated method stub
-		return null;
+		return parent;
 	}
 
 	@Override
 	public int getIndex(TreeNode node) {
-		// TODO Auto-generated method stub
-		return 0;
+		return children.indexOf(node);
 	}
 
 	@Override
 	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -75,19 +70,19 @@ public class Table implements MutableTreeNode {
 
 	@Override
 	public Enumeration<? extends TreeNode> children() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return (Enumeration<? extends TreeNode>) children;
 	}
 
 	@Override
 	public void insert(MutableTreeNode child, int index) {
-		// TODO Auto-generated method stub
+		children.add(index, (Column) child);
 
 	}
 
 	@Override
 	public void remove(int index) {
-		// TODO Auto-generated method stub
+		children.remove(index);
 
 	}
 
@@ -105,7 +100,7 @@ public class Table implements MutableTreeNode {
 
 	@Override
 	public void removeFromParent() {
-		// TODO Auto-generated method stub
+		parent.remove(this);
 
 	}
 

@@ -46,16 +46,17 @@ public class MainFrame extends JFrame{
 		
 	}
 
-	private void initializeGUI() {
+	private void initializeGUI(Database d) {
 		
 		toolkit = Toolkit.getDefaultToolkit();
 		dim = toolkit.getScreenSize();
 		
-		upperView = new JPanel();
+		dv = new DatabaseView(d);
 		Dimension dims = new Dimension(830,740);
-		upperView.setPreferredSize(dims);
+		//upperView.setPreferredSize(dims);
+		dv.setPreferredSize(dims);
 		left = new JScrollPane(dt);
-		split = new JSplitPane(SwingConstants.VERTICAL,left,upperView);
+		split = new JSplitPane(SwingConstants.VERTICAL,left,dv);
 		this.add(split);
 		this.setSize(1300, 800);
 		this.setLocationRelativeTo(null);
@@ -66,7 +67,7 @@ public class MainFrame extends JFrame{
 	private void initialize(Database d) {
 		am = new ActionManager();
 		initializeTree(d);
-		initializeGUI();
+		initializeGUI(d);
 	}
 	
 	public JPanel getUpperView() {
@@ -94,8 +95,9 @@ public class MainFrame extends JFrame{
 			if(ms.getClickCount()==2) {
 				Object o = dt.getLastSelectedPathComponent();
 				if(o instanceof Table) {
-					upperView.removeAll();
-					upperView.updateUI();
+					Table t = (Table) o;
+					dv.addTab(t);
+					
 					
 				}
 			}

@@ -25,6 +25,7 @@ public class DatabaseView extends JPanel {
 				dataBase = (Database)d;
 				this.dataBase = d;
 				jtp = new JTabbedPane();
+				jtp.setPreferredSize(new Dimension(700,700));
 				jtp.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 				this.add(jtp);
 			}
