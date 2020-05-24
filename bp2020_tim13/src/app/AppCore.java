@@ -13,6 +13,8 @@ import javax.swing.SwingUtilities;
 
 import database.connection.SQLConnection;
 import model.Column;
+import model.ColumnLimit;
+import model.ColumnLimitsEnum;
 import model.Database;
 import model.Row;
 import model.Table;
@@ -39,7 +41,10 @@ public class AppCore{
 			while(tables.next()) {
 				 String tableName = tables.getString("TABLE_NAME");
 				 Table table = new Table(tableName);
-				 database.addTable(table);
+				if(table.getName().startsWith("trace")) continue;
+				 
+				 ResultSet foreignKeys = dmd.getImportedKeys(connection.getCatalog(), null, table.getName());
+		         ResultSet primaryKeys = dmd.getPrimaryKeys(connection.getCatalog(), null, table.getName());
 				 
 				 ResultSet columns = dmd.getColumns(connection.getCatalog(), null, tableName, null);
 
@@ -49,24 +54,49 @@ public class AppCore{
 	                    String columnType = columns.getString("TYPE_NAME");
 	                    int size = Integer.parseInt(columns.getString("COLUMN_SIZE"));
 	                    Column column = new Column(columnName,columnType,size);
+	                    
+	                    while(primaryKeys.next()) {
+	                    	String keyname = primaryKeys.getString("COLUMN_NAME");
+	                    	if(columnName.equals(keyname)) {
+	                    		ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.PRIMARY_KEY, column);
+	                    		column.addLimit(cl);
+	     
+	                    	}
+	                    }
+	                    while(foreignKeys.next()) {
+	                    	String keyname = foreignKeys.getString("FKCOLUMN_NAME");
+	                    	if(columnName.equals(keyname)) {
+	                    		ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.FOREIGN_KEY, column);
+	                    		column.addLimit(cl);
+	                    	}
+	                    	else {
+	                    		keyname = foreignKeys.getString("PKCOLUMN_NAME");
+	                    		if(columnName.equals(keyname)) {
+		                    		ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.FOREIGN_KEY, column);
+		                    		column.addLimit(cl);
+	                    		}
+		                    		
+	                    	}
+	                    }
 	                    table.addColumn(column);
 	                  
 	                }
-	               // String query = "SELECT * FROM " + tableName;
-	              //  PreparedStatement preparedStatement = connection.prepareStatement(query);
-	               // ResultSet rs = preparedStatement.executeQuery();
+	               String query = "SELECT * FROM " + tableName;
+	                PreparedStatement preparedStatement = connection.prepareStatement(query);
+	                ResultSet rs = preparedStatement.executeQuery();
 
-	               // while (rs.next()){
+	                while (rs.next()){
 
-	               //     Row row = new Row(tableName);
+	                    Row row = new Row(tableName);
 
-	                //    ResultSetMetaData resultSetMetaData = rs.getMetaData();
-	               //     for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
-	               //         row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
-	               ///     }
-	               //     table.addRows(row);
+	                    ResultSetMetaData resultSetMetaData = rs.getMetaData();
+	                    for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+	                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+	                    }
+	                    table.addRows(row);
 //
-	               // }
+	                }
+	                database.addTable(table);
 			}
 			for (Table t : database.getChildren()) {
 				System.out.println(t.toString());
