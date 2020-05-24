@@ -74,6 +74,13 @@ public class AppCore{
 					System.out.println(c.toString());
 				}
 			}
+			
+			
+			
+			
+			
+			
+			
 		MainFrame.getInstance(database).setVisible(true);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

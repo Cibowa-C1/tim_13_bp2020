@@ -1,7 +1,7 @@
 package model;
 
 public enum ColumnLimitsEnum {
-	   PRIMARY_KEY,
+	   	PRIMARY_KEY,
 	    FOREIGN_KEY,
 	    DEFAULT_VALUE,
 	    DOMAIN_VALUE,

@@ -15,10 +15,10 @@ public class ColumnLimit implements MutableTreeNode {
 		this.type = type;
 		this.col = col;
 	}
-@Override
-public String toString() {
+	@Override
+	public String toString() {
 	return type.toString();
-}
+	}	
 	@Override
 	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
@@ -33,8 +33,7 @@ public String toString() {
 
 	@Override
 	public TreeNode getParent() {
-		// TODO Auto-generated method stub
-		return null;
+		return col;
 	}
 
 	@Override
@@ -87,14 +86,12 @@ public String toString() {
 
 	@Override
 	public void removeFromParent() {
-		// TODO Auto-generated method stub
-
+		col.remove(this);
 	}
 
 	@Override
 	public void setParent(MutableTreeNode newParent) {
-		// TODO Auto-generated method stub
-
+		col = (Column) newParent;
 	}
 
 }
