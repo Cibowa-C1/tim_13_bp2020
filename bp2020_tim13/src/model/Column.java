@@ -13,9 +13,23 @@ public class Column implements MutableTreeNode {
 	private String name;
 	private ColumnType type;
 	private List<ColumnLimit> limits;
+	private int size;
+	private Column inRelation;
 	
 	
-	public Column(String name,String type) {
+	public Column getInRelation() {
+		return inRelation;
+	}
+
+	public void setInRelation(Column inRelation) {
+		this.inRelation = inRelation;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public Column(String name,String type,int size) {
 		this.name = name;
 		if(type.equals(ColumnType.CHAR)) this.type = ColumnType.CHAR;
 		else if(type.equals(ColumnType.VARCHAR)) this.type = ColumnType.VARCHAR;													
@@ -34,6 +48,7 @@ public class Column implements MutableTreeNode {
 		else if(type.equals(ColumnType.SMALLINT)) this.type = ColumnType.SMALLINT; 
 		else if(type.equals(ColumnType.NVARCHAR)) this.type = ColumnType.NVARCHAR; 
 		limits = new ArrayList<ColumnLimit>();
+		this.size = size;
 	}
 	
 	public List<ColumnLimit> getLimits() {

@@ -47,11 +47,12 @@ public class AppCore{
 
 	                    String columnName = columns.getString("COLUMN_NAME");
 	                    String columnType = columns.getString("TYPE_NAME");
-	                    Column column = new Column(columnName,columnType);
+	                    int size = Integer.parseInt(columns.getString("COLUMN_SIZE"));
+	                    Column column = new Column(columnName,columnType,size);
 	                    table.addColumn(column);
 	                  
 	                }
-	                String query = "SELECT * FROM " + tableName;
+	              /*  String query = "SELECT * FROM " + tableName;
 	                PreparedStatement preparedStatement = connection.prepareStatement(query);
 	                ResultSet rs = preparedStatement.executeQuery();
 
@@ -65,7 +66,7 @@ public class AppCore{
 	                    }
 	                    table.addRows(row);
 
-	                }
+	                }*/
 			}
 			for (Table t : database.getChildren()) {
 				System.out.println(t.toString());
