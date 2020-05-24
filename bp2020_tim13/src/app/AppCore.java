@@ -52,21 +52,21 @@ public class AppCore{
 	                    table.addColumn(column);
 	                  
 	                }
-	                String query = "SELECT * FROM " + tableName;
-	                PreparedStatement preparedStatement = connection.prepareStatement(query);
-	                ResultSet rs = preparedStatement.executeQuery();
+	               // String query = "SELECT * FROM " + tableName;
+	              //  PreparedStatement preparedStatement = connection.prepareStatement(query);
+	               // ResultSet rs = preparedStatement.executeQuery();
 
-	                while (rs.next()){
+	               // while (rs.next()){
 
-	                    Row row = new Row(tableName);
+	               //     Row row = new Row(tableName);
 
-	                    ResultSetMetaData resultSetMetaData = rs.getMetaData();
-	                    for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
-	                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
-	                    }
-	                    table.addRows(row);
-
-	                }
+	                //    ResultSetMetaData resultSetMetaData = rs.getMetaData();
+	               //     for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+	               //         row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+	               ///     }
+	               //     table.addRows(row);
+//
+	               // }
 			}
 			for (Table t : database.getChildren()) {
 				System.out.println(t.toString());
