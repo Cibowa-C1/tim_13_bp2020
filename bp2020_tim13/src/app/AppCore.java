@@ -52,7 +52,7 @@ public class AppCore{
 	                    table.addColumn(column);
 	                  
 	                }
-	              /*  String query = "SELECT * FROM " + tableName;
+	                String query = "SELECT * FROM " + tableName;
 	                PreparedStatement preparedStatement = connection.prepareStatement(query);
 	                ResultSet rs = preparedStatement.executeQuery();
 
@@ -66,7 +66,7 @@ public class AppCore{
 	                    }
 	                    table.addRows(row);
 
-	                }*/
+	                }
 			}
 			for (Table t : database.getChildren()) {
 				System.out.println(t.toString());
