@@ -43,9 +43,7 @@ public class AppCore{
 				 Table table = new Table(tableName);
 				if(table.getName().startsWith("trace")) continue;
 				 
-				 ResultSet foreignKeys = dmd.getImportedKeys(connection.getCatalog(), null, table.getName());
-		         ResultSet primaryKeys = dmd.getPrimaryKeys(connection.getCatalog(), null, table.getName());
-				 
+				
 				 ResultSet columns = dmd.getColumns(connection.getCatalog(), null, tableName, null);
 
 	                while (columns.next()){
@@ -58,29 +56,6 @@ public class AppCore{
 	                    if(isNull.contains("NO")) {
 	                    	ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.NOT_NULL, column);
                     		column.addLimit(cl);
-	                    }
-	                    while(primaryKeys.next()) {
-	                    	String keyname = primaryKeys.getString("COLUMN_NAME");
-	                    	if(columnName.equals(keyname)) {
-	                    		ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.PRIMARY_KEY, column);
-	                    		column.addLimit(cl);
-	     
-	                    	}
-	                    }
-	                    while(foreignKeys.next()) {
-	                    	String keyname = foreignKeys.getString("FKCOLUMN_NAME");
-	                    	if(columnName.equals(keyname)) {
-	                    		ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.FOREIGN_KEY, column);
-	                    		column.addLimit(cl);
-	                    	}
-	                    	else {
-	                    		keyname = foreignKeys.getString("PKCOLUMN_NAME");
-	                    		if(columnName.equals(keyname)) {
-		                    		ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.FOREIGN_KEY, column);
-		                    		column.addLimit(cl);
-	                    		}
-		                    		
-	                    	}
 	                    }
 	                    table.addColumn(column);
 	                  
@@ -98,17 +73,35 @@ public class AppCore{
 	                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
 	                    }
 	                    table.addRows(row);
-//
 	                }
 	                database.addTable(table);
 			}
-			for (Table t : database.getChildren()) {
-				System.out.println(t.toString());
-				for (Column c : t.getChildren()) {
-					System.out.println(c.toString());
-				}
-			}
 			
+			for (Table t : database.getChildren()) {
+				 ResultSet foreignKeys = dmd.getImportedKeys(connection.getCatalog(), null, t.getName());
+				 while(foreignKeys.next()) {
+					String Fkeyname = foreignKeys.getString("FKCOLUMN_NAME");
+                 	String Pkeyname = foreignKeys.getString("PKCOLUMN_NAME");
+                 	System.out.println("////////\n" + t.getName() + "\nFK : " + Fkeyname );
+                 	System.out.println("PK : " + Pkeyname );
+                 	for (Column c : t.getChildren()) {
+						if(c.getName().equals(Fkeyname)) {
+							ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.FOREIGN_KEY, c);
+                    		c.addLimit(cl);
+						}
+					}
+				 }
+				 ResultSet primaryKeys = dmd.getPrimaryKeys(connection.getCatalog(), null, t.getName());
+				 while(primaryKeys.next()) {
+                 	String keyname = primaryKeys.getString("COLUMN_NAME");
+                 	for (Column c : t.getChildren()) {
+                 		if(c.getName().equals(keyname)) {
+                 			ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.PRIMARY_KEY, c);
+                 			c.addLimit(cl);
+                 		}
+                 	}
+                 }
+			}
 			
 			
 			
