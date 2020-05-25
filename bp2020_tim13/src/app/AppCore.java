@@ -26,13 +26,21 @@ public class AppCore{
 	public final static String url = "jdbc:jtds:sqlserver://147.91.175.155/tim_13_bp2020";
 	public final static String username = "tim_13_bp2020";
 	public final static String pass = "5m7Apjgp";
+	public static Connection connection;
+	
+	public static void startConnection() {
+		 try{
+			 connection = DriverManager.getConnection(url,username,pass);
+			 System.out.println("Uspeh");
+		 }catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) {
 		
 		try {
-			
-			Connection connection = DriverManager.getConnection(url,username,pass);
-			System.out.println("Uspeh");
+			startConnection();
 			DatabaseMetaData dmd = connection.getMetaData();
 			Database database = new Database("Database");
 			String tableType[] = {"TABLE"};
@@ -122,8 +130,7 @@ public class AppCore{
 			}
 			
 			
-			
-			
+		CloseConnection();
 		MainFrame.getInstance(database).setVisible(true);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -133,6 +140,13 @@ public class AppCore{
 		
 
 	}
-
+	public static void CloseConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
