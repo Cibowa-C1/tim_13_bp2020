@@ -51,7 +51,7 @@ public class ColumnLimit implements MutableTreeNode {
 	@Override
 	public boolean isLeaf() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

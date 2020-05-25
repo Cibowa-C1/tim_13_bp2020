@@ -54,8 +54,8 @@ public class AppCore{
 	                    String columnType = columns.getString("TYPE_NAME");
 	                    int size = Integer.parseInt(columns.getString("COLUMN_SIZE"));
 	                    Column column = new Column(columnName,columnType,size);
-	                    String isNull = columns.getString("NULLABLE");
-	                    if(isNull.contains("no")) {
+	                    String isNull = columns.getString("IS_NULLABLE");
+	                    if(isNull.contains("NO")) {
 	                    	ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.NOT_NULL, column);
                     		column.addLimit(cl);
 	                    }
