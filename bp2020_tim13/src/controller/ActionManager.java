@@ -4,8 +4,9 @@ public class ActionManager {
 	
 	private AddAction add;
 	private DeleteAction delete;
-	private RefreshAction refresh;
-	
+	private UpdateAction update;
+	private FilterAction filter;
+	private SortAction sort;
 	
 	
 	public ActionManager() {
@@ -15,20 +16,31 @@ public class ActionManager {
 	private void initActions() {
 		add = new AddAction();
 		delete = new DeleteAction();
-		refresh = new RefreshAction();
+		update = new UpdateAction();
+		filter = new FilterAction();
+		sort = new SortAction();
+		
 	}
 
 	public AddAction getAdd() {
 		return add;
 	}
+	
+	
+	public SortAction getSort() {
+		return sort;
+	}
 
+	public FilterAction getFilter() {
+		return filter;
+	}
 
 	public DeleteAction getDelete() {
 		return delete;
 	}
 
-	public RefreshAction getRefresh() {
-		return refresh;
+	public UpdateAction getUpdate() {
+		return update;
 	}
 	
 }

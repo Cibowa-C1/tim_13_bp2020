@@ -11,10 +11,15 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 
 import controller.ActionManager;
+import controller.AddAction;
+import controller.DeleteAction;
+import controller.UpdateAction;
 import model.Database;
 import model.DatabaseTreeModel;
 import model.Table;
@@ -39,6 +44,7 @@ public class MainFrame extends JFrame{
 	private JButton add;  
 	private JButton delete;
 	private JButton refresh;
+	private Toolbar toolbar;
 	
 	
 	private static MainFrame instance = null;
@@ -56,16 +62,16 @@ public class MainFrame extends JFrame{
 	}
 
 	private void initializeGUI(Database d) {
-		
+		toolbar = new Toolbar();
 		toolkit = Toolkit.getDefaultToolkit();
 		dim = toolkit.getScreenSize();
-		
 		dv = new DatabaseView(d);
 		
 		Dimension dims = new Dimension(830,740);
 		//upperView.setPreferredSize(dims);
 		dv.setPreferredSize(dims);
 		left = new JScrollPane(dt);
+		pack();
 		split = new JSplitPane(SwingConstants.VERTICAL,left,dv);
 		this.add(split);
 		this.pack();
@@ -73,6 +79,7 @@ public class MainFrame extends JFrame{
 		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setTitle("Database-Viewer");
+		this.add(toolbar, BorderLayout.NORTH);
 	}
 	
 	private void initialize(Database d) {
@@ -100,7 +107,10 @@ public class MainFrame extends JFrame{
 	public ActionManager getAm() {
 		return am;
 	}
-	
+
+	public DatabaseView getDv() {
+		return dv;
+	}
 	class MouseAdapter extends java.awt.event.MouseAdapter{
 		public void mouseClicked(MouseEvent ms) {
 			if(ms.getClickCount()==2) {

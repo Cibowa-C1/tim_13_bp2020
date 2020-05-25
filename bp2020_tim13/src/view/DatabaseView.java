@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
@@ -30,10 +31,14 @@ public class DatabaseView extends JPanel {
 				dataBase = (Database)d;
 				this.dataBase = d;
 				jtp = new JTabbedPane();
-				jtp.setPreferredSize(new Dimension(900,700));
+				jtp.setPreferredSize(new Dimension(1000,450));
 				jtp.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 				this.add(jtp);
 			}
+		}
+		
+		public Component getSelectedTab() {
+			return jtp.getSelectedComponent();
 		}
 		public void addTab(Table t) {
 			model = new MyTableModel();
@@ -48,5 +53,7 @@ public class DatabaseView extends JPanel {
 		public ArrayList<TableView> getTables() {
 			return tables;
 		}
-		
+		public JTabbedPane getJtp() {
+			return jtp;
+		}
 }

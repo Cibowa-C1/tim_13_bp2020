@@ -9,20 +9,20 @@ import model.Row;
 import model.Table;
 
 public class MyTableModel extends DefaultTableModel {
-
+	
 	
 	private List<Row> rows;
 	private Table table;
-	private Vector dataVec;
-	private Vector columnVec;
+	private Vector dataV;
+	private Vector columnV;
+	private int columnCount;
 	
 	private void updateModel() {
 		
-		int columnCount = rows.get(0).getFields().keySet().size();
+		columnCount = rows.get(0).getFields().keySet().size();
 		
-		
-		Vector columnV = DefaultTableModel.convertToVector(rows.get(0).getFields().keySet().toArray());
-		Vector dataV = new Vector(columnCount);
+		columnV = DefaultTableModel.convertToVector(rows.get(0).getFields().keySet().toArray());
+		dataV = new Vector(columnCount);
 		
 		for (int i = 0; i < rows.size(); i++) {
 			dataV.add(DefaultTableModel.convertToVector(rows.get(i).getFields().values().toArray()));
@@ -32,32 +32,36 @@ public class MyTableModel extends DefaultTableModel {
 		
 	}
 	
-	
 	public void setRows(List<Row> rows, Table table) {
 		this.rows = rows;
 		this.table  = table;
 		updateModel();
 	}
+	public Vector getDataV() {
+		return dataV;
+	}
+	public Vector getColumnV() {
+		return columnV;
+	}
+
 	@Override
 	public Object getValueAt(int row, int column) {
-		///////////////////////
 		return super.getValueAt(row, column);
 	}
 	@Override
 	public int getColumnCount() {
-		///////////////////////
-		return super.getColumnCount();
+		return columnCount;
 	}
 	public void clear() {
-	    //  data.removeAllElements();
-	      fireTableDataChanged();
+	    dataV.removeAllElements();
+	    fireTableDataChanged();
 	}
 	public void removeRow( int i ) {
-	     // data.removeElementAt(i);
-	      fireTableRowsDeleted(i,i);
+		dataV.remove(i);
+	    fireTableRowsDeleted(i,i);
 	}
 	public void addRow(Object o[]) {
-	     // data.addElement(o);
-	      fireTableRowsInserted(rows.size()-1,rows.size()-1);
+	     dataV.add(o);
+	     fireTableRowsInserted(rows.size()-1,rows.size()-1);
 	}
 }

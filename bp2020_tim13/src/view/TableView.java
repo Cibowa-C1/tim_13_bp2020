@@ -38,6 +38,14 @@ public class TableView extends JTable {
 		return rows;
 	}
 
+	public MyTableModel getTableModel() {
+		return tableModel;
+	}
+
+	public Table getTable() {
+		return table;
+	}
+	
 
 	
 }
