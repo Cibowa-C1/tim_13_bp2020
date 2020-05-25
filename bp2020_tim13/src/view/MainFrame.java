@@ -22,7 +22,8 @@ import view.treeDatabase.DatabaseTree;
 
 public class MainFrame extends JFrame{
 
-	private JTable table;
+	private JTable jtable;
+	private MyTableModel dbm;
 	private JSplitPane split;
 	private JPanel upperView;
 	private JPanel lowerView;
@@ -41,12 +42,7 @@ public class MainFrame extends JFrame{
 	private MainFrame() {}
 	
 	
-	private void initializeTable() {
-		table = new JTable();
-		table.setPreferredScrollableViewportSize(new Dimension(500, 400));
-		table.setFillsViewportHeight(true);
-		//dv.add(new JScrollPane(table));
-	}
+
 	private void initializeTree(Database d) {
 		dt = new DatabaseTree();
 		dtm = new DatabaseTreeModel(d);
@@ -61,7 +57,7 @@ public class MainFrame extends JFrame{
 		dim = toolkit.getScreenSize();
 		
 		dv = new DatabaseView(d);
-
+		
 		Dimension dims = new Dimension(830,740);
 		//upperView.setPreferredSize(dims);
 		dv.setPreferredSize(dims);
@@ -108,8 +104,6 @@ public class MainFrame extends JFrame{
 				if(o instanceof Table) {
 					Table t = (Table) o;
 					dv.addTab(t);
-					
-					
 				}
 			}
 		}

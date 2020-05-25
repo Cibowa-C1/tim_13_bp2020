@@ -10,15 +10,16 @@ import javax.swing.tree.TreeNode;
 public class Table implements MutableTreeNode {
 	
 	private Database parent;
-	private List<Column> children = new ArrayList<Column>();
+	private List<Column> children;
 	private String name;
-	private List<Row> rows = new ArrayList<Row>();
+	private List<Row> rows;
 	
 	
-
+	
 	public Table(String name) {
 		this.name = name;
 		children = new ArrayList<Column>();
+		rows = new ArrayList<Row>();
 	}
 	
 	public void addColumn(Column c) {
