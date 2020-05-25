@@ -103,7 +103,23 @@ public class AppCore{
                  }
 			}
 			
-			
+			for (Table t : database.getChildren()) {
+				 ResultSet foreignKeys = dmd.getImportedKeys(connection.getCatalog(), null, t.getName());
+				 while(foreignKeys.next()) {
+					 Table forT = database.getChildNode(foreignKeys.getString("FKTABLE_NAME"));
+					 if(forT!=null) {
+						 Column forCol = forT.getChildNode(foreignKeys.getString("FKCOLUMN_NAME"));
+						 if(forCol!=null) {
+							 Table pointT = database.getChildNode(foreignKeys.getString("PKTABLE_NAME"));
+							 if(pointT!=null) {
+								 Column pointCol = pointT.getChildNode(foreignKeys.getString("PKCOLUMN_NAME"));
+								 if(pointCol!=null)
+									 forCol.setInRelation(pointCol);
+							 }
+						 }
+					 }
+				 }
+			}
 			
 			
 			

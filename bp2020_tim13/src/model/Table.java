@@ -31,10 +31,19 @@ public class Table implements MutableTreeNode {
 		return rows;
 	}
 	
+	public Column getChildNode(String s) {
+		for (Column column : children) {
+			if(column.getName().equals(s)) return column;
+		}
+		return null;
+	}
+	
 	public void addRows(Row r) {
 		rows.add(r);
 	}
-	
+	public void setName(String name) {
+		this.name = name;
+	}
 	@Override
 	public String toString() {
 		return name;

@@ -31,6 +31,12 @@ public class Database implements MutableTreeNode {
 		
 		return name;
 	}
+	public Table getChildNode(String name) {
+		for (Table table : children) {
+			if(table.getName().equals(name)) return table;
+		}
+		return null;
+	}
 
 	@Override
 	public TreeNode getChildAt(int childIndex) {
