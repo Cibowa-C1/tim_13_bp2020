@@ -11,6 +11,7 @@ import javax.swing.JTable;
 
 import model.Database;
 import model.Table;
+import view.table.TableRenderer;
 
 public class DatabaseView extends JPanel {
 		
@@ -18,6 +19,7 @@ public class DatabaseView extends JPanel {
 		private TableView tableView;
 		private Database dataBase;
 		private JTabbedPane jtp;
+		private TableRenderer tr;
 		private MyTableModel model;
 		private JTable table;
 		private ArrayList<TableView> tables = new ArrayList<>();
@@ -35,17 +37,12 @@ public class DatabaseView extends JPanel {
 		}
 		public void addTab(Table t) {
 			model = new MyTableModel();
-			
 			tableView = new TableView(t);
 			tables.add(tableView);
+			tr = new TableRenderer();
+			tableView.setDefaultRenderer(Object.class, tr);
 			jtp.addTab(t.getName(), new JScrollPane(tableView));
-			//table = (Table)t;
-			//rows = table.getRows();
-			//tableModel = new MyTableModel();
-			//tableModel.setRows(rows);
-			//jtable = new JTable(tableModel);
-			
-			
+
 			this.updateUI();
 		}
 		public ArrayList<TableView> getTables() {

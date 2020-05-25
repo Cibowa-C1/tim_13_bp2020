@@ -48,14 +48,16 @@ public class MyTableModel extends DefaultTableModel {
 		///////////////////////
 		return super.getColumnCount();
 	}
-	@Override
-	public void addRow(Object[] rowData) {
-		///////////////////////
-		super.addRow(rowData);
+	public void clear() {
+	    //  data.removeAllElements();
+	      fireTableDataChanged();
 	}
-	@Override
-	public void removeRow(int row) {
-		///////////////////////
-		super.removeRow(row);
+	public void removeRow( int i ) {
+	     // data.removeElementAt(i);
+	      fireTableRowsDeleted(i,i);
+	}
+	public void addRow(Object o[]) {
+	     // data.addElement(o);
+	      fireTableRowsInserted(rows.size()-1,rows.size()-1);
 	}
 }

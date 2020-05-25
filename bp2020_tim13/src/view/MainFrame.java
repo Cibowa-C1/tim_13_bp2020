@@ -3,6 +3,7 @@
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,7 +36,10 @@ public class MainFrame extends JFrame{
 	private Toolkit toolkit;
 	private Dimension dim;
 	private JScrollPane left;
-
+	private JButton add;  
+	private JButton delete;
+	private JButton refresh;
+	
 	
 	private static MainFrame instance = null;
 	
@@ -65,7 +69,7 @@ public class MainFrame extends JFrame{
 		split = new JSplitPane(SwingConstants.VERTICAL,left,dv);
 		this.add(split);
 		this.pack();
-		//this.setSize(1300, 800);
+		this.setSize(1300, 800);
 		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setTitle("Database-Viewer");
