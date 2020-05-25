@@ -90,8 +90,6 @@ public class AppCore{
 				 while(foreignKeys.next()) {
 					String Fkeyname = foreignKeys.getString("FKCOLUMN_NAME");
                  	String Pkeyname = foreignKeys.getString("PKCOLUMN_NAME");
-                 	System.out.println("////////\n" + t.getName() + "\nFK : " + Fkeyname );
-                 	System.out.println("PK : " + Pkeyname );
                  	for (Column c : t.getChildren()) {
 						if(c.getName().equals(Fkeyname)) {
 							ColumnLimit cl = new ColumnLimit(ColumnLimitsEnum.FOREIGN_KEY, c);
