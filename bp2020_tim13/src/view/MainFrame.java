@@ -77,7 +77,7 @@ public class MainFrame extends JFrame{
 		this.pack();
 		this.setSize(1300, 800);
 		this.setLocationRelativeTo(null);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("Database-Viewer");
 		this.add(toolbar, BorderLayout.NORTH);
 	}
