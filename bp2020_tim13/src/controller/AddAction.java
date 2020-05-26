@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import view.AddDialog;
-import view.FilterDialog;
+import view.FilterSortDialog;
 import view.MainFrame;
 import view.TableView;
 

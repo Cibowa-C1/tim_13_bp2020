@@ -17,37 +17,50 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-
+import javax.swing.table.TableRowSorter;
 
 import model.Table;
 
 
-public class FilterDialog extends JDialog {
+public class FilterSortDialog extends JDialog {
 	
 	private JLabel lbl;
+	private TableRowSorter<MyTableModel> sorter;
 	private JTextField txtField;
-	private JButton apply;
+	private JButton filter;
+	private JButton sort;
 	private List<JCheckBox> checkBoxy;
 	private JCheckBox checkychecky;
 	private JLabel atrName;
 	private String name;
 	private  int[][] sizes;
 	private TableView table;
+	private JRadioButton ascending;
+	private JRadioButton descending;
 	
-		public FilterDialog(TableView t) {
+		public FilterSortDialog(TableView t) {
 			this.table = t;
 			sizes = t.getSizeCol();
 			checkBoxy = new ArrayList<>();
 			setPreferredSize(new Dimension(600, 600));
 			setLocationRelativeTo(null);
 			lbl = new JLabel("Choose filter settings: ");
-			apply = new JButton("Apply changes");
-			apply.setPreferredSize(new Dimension(100, 20));
+			sort = new JButton("Sort");
+			sort.setPreferredSize(new Dimension(100, 20));
+			filter = new JButton("Filter");
+			filter.setPreferredSize(new Dimension(100, 20));
 			add(lbl);
+			ascending = new JRadioButton("Ascending");
+			ascending.setPreferredSize(new Dimension(120,20));
+			descending = new JRadioButton("Descending");
+			descending.setPreferredSize(new Dimension(120,20));
 			lbl.setPreferredSize(new Dimension(100,20));
 			MyTableModel mtm = (MyTableModel)t.getModel();
 			Vector attributes = mtm.getColumnV();
@@ -58,12 +71,38 @@ public class FilterDialog extends JDialog {
 				checkBoxy.add(checkychecky);
 				add(checkychecky);
 			}
-			add(apply);	
+			add(ascending);
+			add(descending);
+			add(sort);
+			add(filter);	
 			pack();
 			this.setLayout(new GridLayout(checkBoxy.size()+2, 1));
 			int i=0;
-			
-			apply.addActionListener(new ActionListener() {
+			sort.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					sorter = new TableRowSorter<MyTableModel>((MyTableModel) table.getModel());
+					table.setRowSorter(sorter);
+					List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+					for (int a = 0; a<checkBoxy.size();a++) {
+						if(checkBoxy.get(a).isSelected()) {
+							if(ascending.isSelected() || !(ascending.isSelected() && descending.isSelected())) {
+								sortKeys.add(new RowSorter.SortKey(a, SortOrder.ASCENDING));
+								sorter.setSortKeys(sortKeys);
+								sorter.sort();
+							}
+							else if(descending.isSelected()) {
+								sortKeys.add(new RowSorter.SortKey(a, SortOrder.DESCENDING));
+								sorter.setSortKeys(sortKeys);
+								sorter.sort();
+							}
+						}
+					}
+					setVisible(false);
+				}
+			});
+			filter.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {

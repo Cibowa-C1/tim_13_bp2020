@@ -7,20 +7,20 @@ import java.util.Vector;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 
-import view.FilterDialog;
+import view.FilterSortDialog;
 import view.MainFrame;
 import view.MyTableModel;
 import view.TableView;
 
-public class FilterAction extends ActionAbstract {
+public class FilterSortAction extends ActionAbstract {
 
-	private FilterDialog dialog;
+	private FilterSortDialog dialog;
 	private TableView tableView;
 	private JCheckBox check;
 	
-	public FilterAction() {
-		putValue(NAME, "Filter");
-		putValue(SHORT_DESCRIPTION, "Filter");
+	public FilterSortAction() {
+		putValue(NAME, "Filter&Sort");
+		putValue(SHORT_DESCRIPTION, "Filter&Sort");
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class FilterAction extends ActionAbstract {
 		if(o instanceof JScrollPane) {
 			JScrollPane scrl =(JScrollPane)o;
 			TableView t = (TableView) scrl.getViewport().getComponents()[0];
-			dialog = new FilterDialog(t);
+			dialog = new FilterSortDialog(t);
 			dialog.setVisible(true);
 		}
 		
