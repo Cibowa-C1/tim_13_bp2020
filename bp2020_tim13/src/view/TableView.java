@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
@@ -21,6 +22,7 @@ public class TableView extends JTable {
 	private List<Row> rows;
 	private JTable jtable;
 	private MyTableModel tableModel;
+	private int sizeCol[][];
 
 	public TableView(Table t) {
 		if(t instanceof Table) {
@@ -31,22 +33,37 @@ public class TableView extends JTable {
 			tableModel.setRows(rows, table);
 			this.setModel(tableModel);
 			this.setFillsViewportHeight(true);
+			sizeCol = new int[100][100];
+			populatesize();
 			}
+		
 		}
 
 	public List<Row> getRows() {
 		return rows;
 	}
 
+	public int[][] getSizeCol() {
+		return sizeCol;
+	}
+	
 	public MyTableModel getTableModel() {
 		return tableModel;
 	}
-
+	
+	
 	public Table getTable() {
 		return table;
 	}
 	
-
+	public void populatesize() {
+		int i=0;
+		for(Column c :table.getChildren()) {
+		sizeCol[i][0] = this.getColumnModel().getColumn(i).getMinWidth();
+		sizeCol[i][1] = this.getColumnModel().getColumn(i).getMaxWidth();
+		i++;
+		}
+	}
 	
 }
 

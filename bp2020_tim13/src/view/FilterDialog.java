@@ -35,12 +35,12 @@ public class FilterDialog extends JDialog {
 	private JCheckBox checkychecky;
 	private JLabel atrName;
 	private String name;
-	private int[][] sizes;
+	private  int[][] sizes;
 	private TableView table;
 	
 		public FilterDialog(TableView t) {
 			this.table = t;
-			sizes = new int[100][100];
+			sizes = t.getSizeCol();
 			checkBoxy = new ArrayList<>();
 			setPreferredSize(new Dimension(600, 600));
 			setLocationRelativeTo(null);
@@ -51,8 +51,9 @@ public class FilterDialog extends JDialog {
 			lbl.setPreferredSize(new Dimension(100,20));
 			MyTableModel mtm = (MyTableModel)t.getModel();
 			Vector attributes = mtm.getColumnV();
-			for (int i = 0; i < attributes.size(); i++) {
-				checkychecky = new JCheckBox(attributes.get(i).toString());
+			Iterator<Object> iter = attributes.iterator();
+			while(iter.hasNext()) {
+				checkychecky = new JCheckBox(iter.next().toString());
 				checkychecky.setPreferredSize(new Dimension(120,20));
 				checkBoxy.add(checkychecky);
 				add(checkychecky);
@@ -60,28 +61,25 @@ public class FilterDialog extends JDialog {
 			add(apply);	
 			pack();
 			this.setLayout(new GridLayout(checkBoxy.size()+2, 1));
-			for (int i = 0; i < checkBoxy.size(); i++) {
-				sizes[i][0] = t.getColumnModel().getColumn(i).getMinWidth();
-				sizes[i][1] = t.getColumnModel().getColumn(i).getMaxWidth();
-			}
+			int i=0;
+			
 			apply.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					for (int i = 0; i < sizes.length; i++) 
-			            for (int j = 0; j < sizes[i].length; j++) {
-			                System.out.print(sizes[i][j] + " "); 
-						System.out.println();
-			    	}
-					for (int i = 0; i < checkBoxy.size(); i++) {
-						if(!checkBoxy.get(i).isSelected()) {
-							t.getColumnModel().getColumn(i).setMinWidth(0);
-							t.getColumnModel().getColumn(i).setMaxWidth(0);
+					
+					int k=0;
+					for (JCheckBox ch :checkBoxy) {
+						if(!ch.isSelected()) {
+							t.getColumnModel().getColumn(k).setMinWidth(0);
+							t.getColumnModel().getColumn(k).setMaxWidth(0);
 						}
 						else {
-							t.getColumnModel().getColumn(i).setMinWidth(sizes[i][0]);
-							t.getColumnModel().getColumn(i).setMaxWidth(sizes[i][1]);
+							t.getColumnModel().getColumn(k).setWidth(sizes[k][1]);
+							t.getColumnModel().getColumn(k).setMinWidth(sizes[k][0]);
+							t.getColumnModel().getColumn(k).setMaxWidth(sizes[k][1]);
 						}
+						k++;
 					}
 					
 					setVisible(false);
