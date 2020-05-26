@@ -67,11 +67,12 @@ public class MainFrame extends JFrame{
 		dim = toolkit.getScreenSize();
 		
 		
-		Dimension dims = new Dimension(830,740);
+		Dimension dims = new Dimension(830,300);
 		//upperView.setPreferredSize(dims);
 		dV = new DatabaseView(d);
 		lowerTable = new DatabaseView(d);
 		right = new JSplitPane(SwingConstants.HORIZONTAL,dV,lowerTable);
+        right.setDividerLocation(JSplitPane.CENTER_ALIGNMENT);
 		dV.setPreferredSize(dims);
 		lowerTable.setPreferredSize(dims);
 		left = new JScrollPane(dt);
