@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import database.connection.SQLConnection;
 import model.Column;
@@ -130,7 +131,13 @@ public class AppCore{
 			
 			
 		CloseConnection(connection);
+		try {
+			   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			  } catch (Exception e) {
+			   e.printStackTrace();
+			  }
 		MainFrame.getInstance(database).setVisible(true);
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

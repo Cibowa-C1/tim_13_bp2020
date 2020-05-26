@@ -67,20 +67,22 @@ public class MainFrame extends JFrame{
 		dim = toolkit.getScreenSize();
 		
 		
-		Dimension dims = new Dimension(830,300);
+		Dimension dims = new Dimension(1500,400);
 		//upperView.setPreferredSize(dims);
 		dV = new DatabaseView(d);
 		lowerTable = new DatabaseView(d);
 		right = new JSplitPane(SwingConstants.HORIZONTAL,dV,lowerTable);
-        right.setDividerLocation(JSplitPane.CENTER_ALIGNMENT);
+		right.setEnabled(false);
+		right.setResizeWeight(0.5); 
 		dV.setPreferredSize(dims);
 		lowerTable.setPreferredSize(dims);
 		left = new JScrollPane(dt);
 		pack();
 		split = new JSplitPane(SwingConstants.VERTICAL,left,right);
+		split.setResizeWeight(0.2);
 		this.add(split);
 		this.pack();
-		this.setSize(1300, 800);
+		this.setSize(1300, 830);
 		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("Database-Viewer");
