@@ -16,6 +16,8 @@ public class OptionDialog extends JDialog {
 		setTitle("Warning!");
 		lbl = new JLabel("Niste uneli validne podatke.");
 		add(lbl,BorderLayout.CENTER);
+		setLocationRelativeTo(null);
+		pack();
 		setVisible(true);
 	}
 }

@@ -45,8 +45,8 @@ public class AddDialog extends JDialog {
 		this.setPreferredSize(new Dimension(700,700));
 		this.setLocationRelativeTo(null);
 		int i=0;
-		while(iter.hasNext()) {
-			JLabel lbl = new JLabel(iter.next().toString());
+		for(Column c:table.getChildren()) {
+			JLabel lbl = new JLabel(c.getName());
 			JTextField txt = new JTextField();
 			this.add(lbl);
 			this.add(txt);
@@ -109,30 +109,39 @@ public class AddDialog extends JDialog {
 				Row row = new Row(table.getName());
 				try {
 					PreparedStatement ps = connection.prepareStatement(query.toString());
-					i=0;
+					int u=0;
 					for (JTextField text : cells) {
-						Column c = (Column) table.getChildAt(i);
-						SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MMM-dd");
+						System.out.println(text.getName());
+						Column c = (Column) table.getChildAt(u);
+						SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 						 if(c.getType().equals(ColumnType.DATE))
 							try {
-								ps.setDate(i+1,(Date) formatter2.parse(text.getText()));
+								//String strDate = formatter2.format(new Date());
+								System.out.println(text.getText());
+								java.util.Date d = formatter2.parse(text.getText());
+								Date date = new Date(d.getTime());
+								ps.setDate(u+1,date);
 							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								System.out.println("ipak ovde");
+								OptionDialog op =new OptionDialog(); return;
 							}
-						else if(c.getType().equals(ColumnType.DATETIME))
+						else if(c.getType().equals(ColumnType.DATETIME)) {
 							try {
-								ps.setDate(i+1,(Date) formatter2.parse(text.getText()));
+								java.util.Date d = formatter2.parse(text.getText());
+								Date date = new Date(d.getTime());
+								ps.setDate(u+1,date);
 							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								System.out.println("OVDE E");
+								OptionDialog op =new OptionDialog(); return;
 							}
-						else if(c.getType().equals(ColumnType.FLOAT)) ps.setFloat(i+1, Float.parseFloat(text.getText()));
-						else if(c.getType().equals(ColumnType.DECIMAL))ps.setFloat(i+1, Float.parseFloat(text.getText())); 
-						else if(c.getType().equals(ColumnType.INT))  ps.setInt(i+1, Integer.parseInt(text.getText()));  
-						else ps.setString(i+1, text.getText());
+						}
+						else if(c.getType().equals(ColumnType.FLOAT)) ps.setFloat(u+1, Float.parseFloat(text.getText()));
+						else if(c.getType().equals(ColumnType.DECIMAL))ps.setFloat(u+1, Float.parseFloat(text.getText())); 
+						else if(c.getType().equals(ColumnType.INT))  ps.setInt(u+1, Integer.parseInt(text.getText()));  
+						else ps.setString(u+1, text.getText());
 						 row.addField(c.getName(), text.getText());
-						 i++;
+						 u++;
 					}
 					table.addRows(row);
 					ps.execute();
