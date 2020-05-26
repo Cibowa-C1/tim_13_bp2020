@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
@@ -24,7 +26,10 @@ import javax.swing.JTextField;
 
 import app.AppCore;
 import model.Column;
+import model.ColumnLimit;
+import model.ColumnLimitsEnum;
 import model.ColumnType;
+import model.Row;
 import model.Table;
 
 public class AddDialog extends JDialog {
@@ -58,29 +63,86 @@ public class AddDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				int i=0;
 				setVisible(false);
+				StringBuilder query = new StringBuilder("INSERT INTO " + table.getName()+ " (");
 				for (JTextField text : cells) {
 					Column c = (Column) table.getChildAt(i);
+					if(c==null) {System.out.println("NULLLLLLLLLLL"); return;}
+					if(i==0) {
+						query.append(c.getName());
+					}else {
+						query.append(", ");
+						query.append(c.getName());
+					}
 					String sadrzaj = text.getText();
-					if(c.getType().equals(ColumnType.CHAR)) 
-						if(!isAlpha(sadrzaj)) return;
-					else if(c.getType().equals(ColumnType.VARCHAR)) if(!isAlpha(sadrzaj)) {new OptionDialog(); return;}												  
-					else if(c.getType().equals(ColumnType.DATE)) if(!isValidDate(sadrzaj)){new OptionDialog(); return;}	
-					else if(c.getType().equals(ColumnType.TIME)) if(!isValidTime(sadrzaj)){new OptionDialog(); return;}	
-					else if(c.getType().equals(ColumnType.DATETIME)) if(!isValidDateTime(sadrzaj)){new OptionDialog(); return;}	
-					else if(c.getType().equals(ColumnType.FLOAT)) if(!isFloat(sadrzaj)){new OptionDialog(); return;} 
-					else if(c.getType().equals(ColumnType.DECIMAL)) if(!isFloat(sadrzaj)){new OptionDialog(); return;}    
-					else if(c.getType().equals(ColumnType.INT))  if(!isFloat(sadrzaj)){new OptionDialog(); return;}   
-					
+					if(sadrzaj==null) {
+						for (ColumnLimit cl : c.getLimits()) {
+							if(cl.getType().equals(ColumnLimitsEnum.NOT_NULL)) {
+								OptionDialog op =new OptionDialog(); 
+								return;
+							}
+						}
+					}
+					if(c.getType()==null) return;
+					else if(c.getType().equals(ColumnType.CHAR)) if(!isAlpha(sadrzaj)) {OptionDialog op =new OptionDialog(); return;}
+					else if(c.getType().equals(ColumnType.VARCHAR)) if(!isAlpha(sadrzaj)) {OptionDialog op =new OptionDialog(); return;}												  
+					else if(c.getType().equals(ColumnType.DATE)) if(!isValidDate(sadrzaj)){OptionDialog op =new OptionDialog(); return;}	
+					else if(c.getType().equals(ColumnType.TIME)) if(!isValidTime(sadrzaj)){OptionDialog op =new OptionDialog(); return;}	
+					else if(c.getType().equals(ColumnType.DATETIME)) if(!isValidDateTime(sadrzaj)){OptionDialog op =new OptionDialog(); return;}	
+					else if(c.getType().equals(ColumnType.FLOAT)) if(!isFloat(sadrzaj)){OptionDialog op =new OptionDialog(); return;} 
+					else if(c.getType().equals(ColumnType.DECIMAL)) if(!isFloat(sadrzaj)){OptionDialog op =new OptionDialog(); return;}    
+					else if(c.getType().equals(ColumnType.INT))  if(!isFloat(sadrzaj)){OptionDialog op =new OptionDialog(); return;}   
+					i++;
 				}
+				query.append(") VALUES (");
+				int k=0;
+				while(k<i) {
+					if(k==0) {
+						query.append("?");
+					}else {
+						query.append(", ?");
+					}
+					k++;
+				}
+				query.append(")");
+				System.out.println(query.toString());
 				Connection connection = AppCore.startConnection();
+				Row row = new Row(table.getName());
 				try {
-					Statement statement = connection.createStatement();
+					PreparedStatement ps = connection.prepareStatement(query.toString());
+					i=0;
+					for (JTextField text : cells) {
+						Column c = (Column) table.getChildAt(i);
+						SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MMM-dd");
+						 if(c.getType().equals(ColumnType.DATE))
+							try {
+								ps.setDate(i+1,(Date) formatter2.parse(text.getText()));
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						else if(c.getType().equals(ColumnType.DATETIME))
+							try {
+								ps.setDate(i+1,(Date) formatter2.parse(text.getText()));
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						else if(c.getType().equals(ColumnType.FLOAT)) ps.setFloat(i+1, Float.parseFloat(text.getText()));
+						else if(c.getType().equals(ColumnType.DECIMAL))ps.setFloat(i+1, Float.parseFloat(text.getText())); 
+						else if(c.getType().equals(ColumnType.INT))  ps.setInt(i+1, Integer.parseInt(text.getText()));  
+						else ps.setString(i+1, text.getText());
+						 row.addField(c.getName(), text.getText());
+						 i++;
+					}
+					table.addRows(row);
+					ps.execute();
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+			
+			AppCore.CloseConnection(connection);
 			}
 		});
 	}

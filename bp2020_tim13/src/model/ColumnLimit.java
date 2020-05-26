@@ -15,6 +15,9 @@ public class ColumnLimit implements MutableTreeNode {
 		this.type = type;
 		this.col = col;
 	}
+	public ColumnLimitsEnum getType() {
+		return type;
+	}
 	@Override
 	public String toString() {
 	return type.toString();

@@ -31,22 +31,22 @@ public class Column implements MutableTreeNode {
 
 	public Column(String name,String type,int size) {
 		this.name = name;
-		if(type.equals(ColumnType.CHAR)) this.type = ColumnType.CHAR;
-		else if(type.equals(ColumnType.VARCHAR)) this.type = ColumnType.VARCHAR;													
-		else if(type.equals(ColumnType.TEXT)) this.type = ColumnType.TEXT; 
-		else if(type.equals(ColumnType.DATE)) this.type = ColumnType.DATE;  
-		else if(type.equals(ColumnType.TIME)) this.type = ColumnType.TIME; 
-		else if(type.equals(ColumnType.DATETIME)) this.type = ColumnType.DATETIME; 
-		else if(type.equals(ColumnType.FLOAT)) this.type = ColumnType.FLOAT; 
-		else if(type.equals(ColumnType.REAL)) this.type = ColumnType.REAL;   
-		else if(type.equals(ColumnType.BIT)) this.type = ColumnType.BIT; 
-		else if(type.equals(ColumnType.BIGINT)) this.type = ColumnType.BIGINT; 
-		else if(type.equals(ColumnType.NUMERIC)) this.type = ColumnType.NUMERIC; 
-		else if(type.equals(ColumnType.DECIMAL)) this.type = ColumnType.DECIMAL;    
-		else if(type.equals(ColumnType.INT)) this.type = ColumnType.INT; 
-		else if(type.equals(ColumnType.IMAGE)) this.type = ColumnType.IMAGE; 
-		else if(type.equals(ColumnType.SMALLINT)) this.type = ColumnType.SMALLINT; 
-		else if(type.equals(ColumnType.NVARCHAR)) this.type = ColumnType.NVARCHAR; 
+		if(type.equals(ColumnType.CHAR.toString().toLowerCase())) this.type = ColumnType.CHAR;
+		else if(type.equals(ColumnType.VARCHAR.toString().toLowerCase())) this.type = ColumnType.VARCHAR;													
+		else if(type.equals(ColumnType.TEXT.toString().toLowerCase())) this.type = ColumnType.TEXT; 
+		else if(type.equals(ColumnType.DATE.toString().toLowerCase())) this.type = ColumnType.DATE;  
+		else if(type.equals(ColumnType.TIME.toString().toLowerCase())) this.type = ColumnType.TIME; 
+		else if(type.equals(ColumnType.DATETIME.toString().toLowerCase())) this.type = ColumnType.DATETIME; 
+		else if(type.equals(ColumnType.FLOAT.toString().toLowerCase())) this.type = ColumnType.FLOAT; 
+		else if(type.equals(ColumnType.REAL.toString().toLowerCase())) this.type = ColumnType.REAL;   
+		else if(type.equals(ColumnType.BIT.toString().toLowerCase())) this.type = ColumnType.BIT; 
+		else if(type.equals(ColumnType.BIGINT.toString().toLowerCase())) this.type = ColumnType.BIGINT; 
+		else if(type.equals(ColumnType.NUMERIC.toString().toLowerCase())) this.type = ColumnType.NUMERIC; 
+		else if(type.equals(ColumnType.DECIMAL.toString().toLowerCase())) this.type = ColumnType.DECIMAL;    
+		else if(type.equals(ColumnType.INT.toString().toLowerCase())) this.type = ColumnType.INT; 
+		else if(type.equals(ColumnType.IMAGE.toString().toLowerCase())) this.type = ColumnType.IMAGE; 
+		else if(type.equals(ColumnType.SMALLINT.toString().toLowerCase())) this.type = ColumnType.SMALLINT; 
+		else if(type.equals(ColumnType.NVARCHAR.toString().toLowerCase())) this.type = ColumnType.NVARCHAR; 
 		limits = new ArrayList<ColumnLimit>();
 		this.size = size;
 	}
