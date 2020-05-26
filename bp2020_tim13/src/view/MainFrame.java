@@ -31,10 +31,9 @@ public class MainFrame extends JFrame{
 	private JTable jtable;
 	private MyTableModel dbm;
 	private JSplitPane split;
-	private JPanel upperView;
-	private JPanel lowerView;
+	private DatabaseView lowerTable;
 	private TableView tv;
-	private DatabaseView dv;
+	private DatabaseView dV;
 	private DatabaseTree dt;
 	private DatabaseTreeModel dtm;
 	private ActionManager am;
@@ -45,6 +44,7 @@ public class MainFrame extends JFrame{
 	private JButton delete;
 	private JButton refresh;
 	private Toolbar toolbar;
+	private JSplitPane right;
 	
 	
 	private static MainFrame instance = null;
@@ -65,14 +65,18 @@ public class MainFrame extends JFrame{
 		toolbar = new Toolbar();
 		toolkit = Toolkit.getDefaultToolkit();
 		dim = toolkit.getScreenSize();
-		dv = new DatabaseView(d);
+		
 		
 		Dimension dims = new Dimension(830,740);
 		//upperView.setPreferredSize(dims);
-		dv.setPreferredSize(dims);
+		dV = new DatabaseView(d);
+		lowerTable = new DatabaseView(d);
+		right = new JSplitPane(SwingConstants.HORIZONTAL,dV,lowerTable);
+		dV.setPreferredSize(dims);
+		lowerTable.setPreferredSize(dims);
 		left = new JScrollPane(dt);
 		pack();
-		split = new JSplitPane(SwingConstants.VERTICAL,left,dv);
+		split = new JSplitPane(SwingConstants.VERTICAL,left,right);
 		this.add(split);
 		this.pack();
 		this.setSize(1300, 800);
@@ -88,41 +92,48 @@ public class MainFrame extends JFrame{
 		initializeGUI(d);
 	}
 	
-	public JPanel getUpperView() {
-		return upperView;
-	}
 
-	public void setUpperView(JPanel upperView) {
-		this.upperView = upperView;
-	}
 
-	public JPanel getLowerView() {
-		return lowerView;
-	}
-
-	public void setLowerView(JPanel lowerView) {
-		this.lowerView = lowerView;
-	}
 
 	public ActionManager getAm() {
 		return am;
 	}
 
-	public DatabaseView getDv() {
-		return dv;
-	}
 	class MouseAdapter extends java.awt.event.MouseAdapter{
 		public void mouseClicked(MouseEvent ms) {
 			if(ms.getClickCount()==2) {
 				Object o = dt.getLastSelectedPathComponent();
 				if(o instanceof Table) {
 					Table t = (Table) o;
-					dv.addTab(t);
+					dV.addTab(t);
 				}
 			}
 		}
 	}
 	
+	public JPanel getLowerTable() {
+		return lowerTable;
+	}
+
+
+
+	public void setLowerTable(DatabaseView lowerTable) {
+		this.lowerTable = lowerTable;
+	}
+
+
+	public DatabaseView getdV() {
+		return dV;
+	}
+
+
+
+	public void setdV(DatabaseView dV) {
+		this.dV = dV;
+	}
+
+
+
 	public static MainFrame getInstance(Database a) {
 		if(instance==null) {
 			instance = new MainFrame();

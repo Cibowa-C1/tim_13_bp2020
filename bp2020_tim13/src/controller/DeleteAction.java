@@ -17,7 +17,7 @@ public class DeleteAction extends ActionAbstract {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Component o = MainFrame.getInstance().getDv().getJtp().getSelectedComponent();
+		Component o = MainFrame.getInstance().getdV().getJtp().getSelectedComponent();
 		if(o instanceof JScrollPane) {
 			JScrollPane scrl =(JScrollPane)o;
 			TableView t = (TableView) scrl.getViewport().getComponents()[0];
