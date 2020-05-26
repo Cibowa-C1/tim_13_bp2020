@@ -7,19 +7,24 @@ import java.util.List;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-public class Table implements MutableTreeNode {
+import observer.IListener;
+import observer.IObserver;
+import observer.state.ObserverStates;
+
+public class Table implements MutableTreeNode,IObserver {
 	
 	private Database parent;
 	private List<Column> children;
 	private String name;
 	private List<Row> rows;
-	
+	private List<IListener> listeners;
 	
 	
 	public Table(String name) {
 		this.name = name;
 		children = new ArrayList<Column>();
 		rows = new ArrayList<Row>();
+		listeners = new ArrayList<IListener>();
 	}
 	
 	public void addColumn(Column c) {
@@ -38,8 +43,19 @@ public class Table implements MutableTreeNode {
 		return null;
 	}
 	
+	public void removeRow(Row r) {
+		rows.remove(r);
+		notifyObserver(ObserverStates.REMOVE, r);
+	}
+	
+	public void updateRows(List<Row> rows) {
+		this.rows = rows;
+		notifyObserver(ObserverStates.UPDATE, rows);
+	}
+	
 	public void addRows(Row r) {
 		rows.add(r);
+		notifyObserver(ObserverStates.ADD, r);
 	}
 	public void setName(String name) {
 		this.name = name;
@@ -127,6 +143,35 @@ public class Table implements MutableTreeNode {
 	public void setParent(MutableTreeNode newParent) {
 		parent = (Database) newParent;
 
+	}
+
+	@Override
+	public void addObserver(IListener listener) {
+		if(listener==null) return;
+		if(this.listeners==null) 
+			this.listeners = new ArrayList<>();
+		if(this.listeners.contains(listener)) return;
+		this.listeners.add(listener);
+	}
+
+
+	@Override
+	public void removeObserver(IListener listener) {
+		if(listener==null) return;
+		if(this.listeners==null) return;
+		if(!this.listeners.contains(listener)) return;
+		this.listeners.remove(listener);
+	}
+
+
+	@Override
+	public void notifyObserver(Object event,Object obj) {
+		if(event==null) return;
+		if(this.listeners==null) return;
+		if(this.listeners.isEmpty()) return;
+		for(IListener l : listeners) {
+			l.update(event,obj);
+		}
 	}
 
 }
