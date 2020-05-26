@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -44,6 +45,7 @@ public class FilterSortDialog extends JDialog {
 	private TableView table;
 	private JRadioButton ascending;
 	private JRadioButton descending;
+	private ButtonGroup group;
 	
 		public FilterSortDialog(TableView t) {
 			this.table = t;
@@ -57,6 +59,7 @@ public class FilterSortDialog extends JDialog {
 			filter = new JButton("Filter");
 			filter.setPreferredSize(new Dimension(100, 20));
 			add(lbl);
+			group = new ButtonGroup();
 			ascending = new JRadioButton("Ascending");
 			ascending.setPreferredSize(new Dimension(120,20));
 			descending = new JRadioButton("Descending");
@@ -78,6 +81,8 @@ public class FilterSortDialog extends JDialog {
 			pack();
 			this.setLayout(new GridLayout(checkBoxy.size()+2, 1));
 			int i=0;
+			group.add(ascending);
+			group.add(descending);
 			sort.addActionListener(new ActionListener() {
 				
 				@Override
