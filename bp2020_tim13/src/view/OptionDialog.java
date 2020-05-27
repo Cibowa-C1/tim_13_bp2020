@@ -21,7 +21,7 @@ public class OptionDialog extends JDialog {
 		setVisible(true);
 	}
 	public OptionDialog(String text) {
-		setPreferredSize(new Dimension(500, 500));
+		setPreferredSize(new Dimension(1000, 500));
 		setTitle("Warning!");
 		lbl = new JLabel(text);
 		add(lbl,BorderLayout.CENTER);

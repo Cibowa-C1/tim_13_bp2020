@@ -71,6 +71,9 @@ public class Table implements MutableTreeNode, IObserver {
 	public List<Column> getChildren() {
 		return children;
 	}
+	public Database getDatabase() {
+		return parent;
+	}
 	
 	@Override
 	public int getChildCount() {

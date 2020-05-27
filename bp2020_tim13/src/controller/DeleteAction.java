@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 
@@ -16,6 +17,7 @@ import model.Row;
 import model.Table;
 import view.MainFrame;
 import view.MyTableModel;
+import view.OptionDialog;
 import view.TableView;
 
 public class DeleteAction extends ActionAbstract {
@@ -46,15 +48,19 @@ public class DeleteAction extends ActionAbstract {
 			String value = (String) r.getFields().get(prmk);
 			Column c = table.getChildNode(prmk);
 			String query = null;
+			System.out.println(value);
 			if(c.getType().equals(ColumnType.INT))
 			 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = "+Integer.parseInt(value);
-			else if(c.getType().equals(ColumnType.FLOAT))
+			else if(c.getType().equals(ColumnType.FLOAT)) {
+				System.out.println(Float.parseFloat(value));
+				System.out.println(prmk);
 				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = "+Float.parseFloat(value);
+			}	
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.executeUpdate();
 			}
 			catch(Exception es) {
-				es.printStackTrace();
+				OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary \nkljuca ove tabele pa se onda\n vrati da obrises ovaj red");
 			}
 			
 			table.removeRows(table.getRows().get(t.getSelectedRow()));
