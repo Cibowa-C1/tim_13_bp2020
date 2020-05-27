@@ -58,14 +58,14 @@ public class DeleteAction extends ActionAbstract {
 				System.out.println(prmk);
 				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = "+Float.parseFloat(value);
 			}	
-			else if(c.getType().equals(ColumnType.CHAR)){
+			else if((c.getType().equals(ColumnType.CHAR)||(c.getType().equals(ColumnType.VARCHAR)))){
 				char[] ch=value.toCharArray();  
 				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + "'"+value+"'";
 
 			}
 			else if(c.getType().equals(ColumnType.DATETIME)){
 				
-				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + value;
+				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + "'"+value+"'";
 
 			}
 			else 
@@ -76,9 +76,8 @@ public class DeleteAction extends ActionAbstract {
 			ps.executeUpdate();
 			}
 			catch(Exception es) {
-				es.printStackTrace();
 				
-				//OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary \nkljuca ove tabele pa se onda\n vrati da obrises ovaj red");
+				OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary kljuca ove tabele pa se onda vrati da obrises ovaj red");
 			}
 			
 			table.removeRows(table.getRows().get(t.getSelectedRow()));
