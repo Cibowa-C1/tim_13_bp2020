@@ -6,6 +6,7 @@ public class ActionManager {
 	private DeleteAction delete;
 	private UpdateAction update;
 	private FilterSortAction filter;
+	private RelationAction relation;
 	
 	
 	public ActionManager() {
@@ -17,6 +18,7 @@ public class ActionManager {
 		delete = new DeleteAction();
 		update = new UpdateAction();
 		filter = new FilterSortAction();
+		relation = new RelationAction();
 		
 	}
 
@@ -24,6 +26,10 @@ public class ActionManager {
 		return add;
 	}
 	
+	
+	public RelationAction getRelation() {
+		return relation;
+	}
 
 	public FilterSortAction getFilter() {
 		return filter;
