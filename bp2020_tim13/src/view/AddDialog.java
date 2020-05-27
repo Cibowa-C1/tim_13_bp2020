@@ -64,16 +64,17 @@ public class AddDialog extends JDialog {
 				int i=0;
 				setVisible(false);
 				StringBuilder query = new StringBuilder("INSERT INTO " + table.getName()+ " (");
-				for (JTextField text : cells) {
-					Column c = (Column) table.getChildAt(i);
-					if(c==null) {System.out.println("NULLLLLLLLLLL"); return;}
+				Iterator<JTextField> iterText = cells.iterator();
+				Iterator<Column> iterColumns = table.getChildren().iterator();
+				while(iterColumns.hasNext() && iterText.hasNext()) {
+					Column c = iterColumns.next();
+					String sadrzaj = iterText.next().getText();
 					if(i==0) {
 						query.append(c.getName());
 					}else {
 						query.append(", ");
 						query.append(c.getName());
 					}
-					String sadrzaj = text.getText();
 					if(sadrzaj==null) {
 						for (ColumnLimit cl : c.getLimits()) {
 							if(cl.getType().equals(ColumnLimitsEnum.NOT_NULL)) {
@@ -109,46 +110,49 @@ public class AddDialog extends JDialog {
 				Row row = new Row(table.getName());
 				try {
 					PreparedStatement ps = connection.prepareStatement(query.toString());
-					int u=0;
-					for (JTextField text : cells) {
-						System.out.println(text.getName());
-						Column c = (Column) table.getChildAt(u);
+					int u=1;
+					Iterator<JTextField> iterText2 = cells.iterator();
+					Iterator<Column> iterColumns2 = table.getChildren().iterator();
+					while(iterText2.hasNext() && iterColumns2.hasNext()) {
+						Column c = iterColumns2.next();
+						String sadrzaj = iterText2.next().getText();
+						System.out.println(sadrzaj);
 						SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
-						SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+						SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 						 if(c.getType().equals(ColumnType.DATE))
 							try {
 								//String strDate = formatter2.format(new Date());
-								System.out.println(text.getText());
-								java.util.Date d = formatter2.parse(text.getText());
+								System.out.println(sadrzaj);
+								java.util.Date d = formatter2.parse(sadrzaj);
 								Date date = new Date(d.getTime());
-								ps.setDate(u+1,date);
+								ps.setDate(u,date);
 							} catch (ParseException e1) {
 								System.out.println("ipak ovde");
 								OptionDialog op =new OptionDialog(); return;
 							}
 						else if(c.getType().equals(ColumnType.DATETIME)) {
 							try {
-								java.util.Date d = formatter2.parse(text.getText());
+								java.util.Date d = formatter.parse(sadrzaj);
 								Date date = new Date(d.getTime());
-								ps.setDate(u+1,date);
+								ps.setDate(u,date);
 							} catch (ParseException e1) {
 								System.out.println("OVDE E");
 								OptionDialog op =new OptionDialog(); return;
 							}
 						}
-						else if(c.getType().equals(ColumnType.FLOAT)) ps.setFloat(u+1, Float.parseFloat(text.getText()));
-						else if(c.getType().equals(ColumnType.DECIMAL))ps.setFloat(u+1, Float.parseFloat(text.getText())); 
-						else if(c.getType().equals(ColumnType.INT))  ps.setInt(u+1, Integer.parseInt(text.getText()));  
-						else ps.setString(u+1, text.getText());
-						 row.addField(c.getName(), text.getText());
-						 u++;
+						else if(c.getType().equals(ColumnType.FLOAT)) {ps.setFloat(u, Float.parseFloat(sadrzaj));System.out.println("Uso");}
+						else if(c.getType().equals(ColumnType.DECIMAL)) {ps.setFloat(u, Float.parseFloat(sadrzaj));System.out.println("Uso"); }
+						else if(c.getType().equals(ColumnType.INT))  ps.setInt(u, Integer.parseInt(sadrzaj));  
+						else {System.out.println("Stavljam " + sadrzaj + " na mesto " + u); ps.setString(u, sadrzaj);}
+						row.addField(c.getName(), sadrzaj);
+						u++;
 					}
-					table.addRows(row);
 					ps.execute();
+					table.addRows(row);
+					
 					
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					OptionDialog op = new OptionDialog("Niste uneli postojeci foreign key");
 				}
 			
 			AppCore.CloseConnection(connection);
@@ -177,7 +181,7 @@ public class AddDialog extends JDialog {
 		return true;
 	}
 	public static boolean isValidDate(String inDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(inDate.trim());
@@ -187,7 +191,7 @@ public class AddDialog extends JDialog {
         return true;
     }
 	public static boolean isValidDateTime(String inDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:ms");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(inDate.trim());

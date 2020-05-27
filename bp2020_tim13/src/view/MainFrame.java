@@ -72,7 +72,7 @@ public class MainFrame extends JFrame{
 		dV = new DatabaseView(d);
 		lowerTable = new DatabaseView(d);
 		right = new JSplitPane(SwingConstants.HORIZONTAL,dV,lowerTable);
-		right.setEnabled(false);
+		//right.setEnabled(false);
 		right.setResizeWeight(0.5); 
 		dV.setPreferredSize(dims);
 		lowerTable.setPreferredSize(dims);
