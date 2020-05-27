@@ -74,13 +74,13 @@ public class DeleteAction extends ActionAbstract {
 			PreparedStatement ps = connection.prepareStatement(query);
 			
 			ps.executeUpdate();
+			table.removeRows(table.getRows().get(t.getSelectedRow()));
 			}
 			catch(Exception es) {
 				
 				OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary kljuca ove tabele pa se onda vrati da obrises ovaj red");
 			}
 			
-			table.removeRows(table.getRows().get(t.getSelectedRow()));
 			
 			AppCore.CloseConnection(connection);
 		}
