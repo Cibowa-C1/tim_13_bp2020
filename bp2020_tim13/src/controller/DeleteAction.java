@@ -72,6 +72,7 @@ public class DeleteAction extends ActionAbstract {
 			}
 			catch(Exception es) {
 				es.printStackTrace();
+				
 				//OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary \nkljuca ove tabele pa se onda\n vrati da obrises ovaj red");
 			}
 			
