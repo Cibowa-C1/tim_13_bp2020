@@ -29,7 +29,6 @@ public class AddAction extends ActionAbstract {
 			JScrollPane scrl =(JScrollPane)o;
 			TableView t = (TableView) scrl.getViewport().getComponents()[0];
 			AddDialog dialog = new AddDialog(t);
-			//Dodaj row u mytablemodel i u table
 			dialog.setVisible(true);
 			
 		

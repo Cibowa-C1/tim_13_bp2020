@@ -52,5 +52,10 @@ public class MyTableModel extends DefaultTableModel {
 	public int getColumnCount() {
 		return columnCount;
 	}
+	public void clear() {
+	    dataV.removeAllElements();
+	    columnV.removeAllElements();
+	    fireTableDataChanged();
+	}
 
 }

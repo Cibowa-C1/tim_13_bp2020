@@ -149,7 +149,12 @@ public class AddDialog extends JDialog {
 					}
 					ps.execute();
 					table.addRows(row);
-					
+					int columnCount = table.getRows().get(0).getFields().keySet().size();
+					Vector data = new Vector(columnCount);
+					for (Object value : row.getFields().values()) {
+						data.add(value);
+					}
+					mtm.addRow(data);
 					
 				} catch (SQLException e1) {
 					OptionDialog op = new OptionDialog("Niste uneli postojeci foreign key ili ste uneli postojaci primary key");

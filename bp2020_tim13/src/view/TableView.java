@@ -68,11 +68,12 @@ public class TableView extends JTable implements IListener {
 			Row row =(Row)obj;
 			
 			if(event==ObserverStates.ADD) {
+				tableModel.clear();
 				tableModel.setRows(this.getTable().getRows(), this.getTable());
 				setModel(tableModel);
-				
 			} 
 			else if(event==ObserverStates.REMOVE){
+				tableModel.clear();
 				tableModel.setRows(this.getTable().getRows(), this.getTable());
 				setModel(tableModel);
 			}
