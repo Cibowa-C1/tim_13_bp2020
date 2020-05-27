@@ -60,12 +60,12 @@ public class DeleteAction extends ActionAbstract {
 			}	
 			else if(c.getType().equals(ColumnType.CHAR)){
 				char[] ch=value.toCharArray();  
-				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + ch;
+				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + value;
 
 			}
 			else 
 				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + value;
-
+			System.out.println(query);
 			PreparedStatement ps = connection.prepareStatement(query);
 			
 			ps.executeUpdate();
