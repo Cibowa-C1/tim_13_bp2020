@@ -60,6 +60,11 @@ public class DeleteAction extends ActionAbstract {
 			}	
 			else if(c.getType().equals(ColumnType.CHAR)){
 				char[] ch=value.toCharArray();  
+				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + "'"+value+"'";
+
+			}
+			else if(c.getType().equals(ColumnType.DATETIME)){
+				
 				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + value;
 
 			}

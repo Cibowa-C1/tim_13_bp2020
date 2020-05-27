@@ -152,7 +152,7 @@ public class AddDialog extends JDialog {
 					
 					
 				} catch (SQLException e1) {
-					OptionDialog op = new OptionDialog("Niste uneli postojeci foreign key");
+					OptionDialog op = new OptionDialog("Niste uneli postojeci foreign key ili ste uneli postojaci primary key");
 				}
 			
 			AppCore.CloseConnection(connection);
