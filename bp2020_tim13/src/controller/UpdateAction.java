@@ -64,6 +64,7 @@ public class UpdateAction extends ActionAbstract{
 					 prmk = primKey.getString("COLUMN_NAME");
 				}
 				int flag = 1;
+				String a = (String) r.getFields().get(prmk);
 				for (Column c : table.getChildren()) {
 					if(c.getName().equals(prmk)) continue;
 					int colIndex = getColumnByName(t, c.getName());
@@ -108,12 +109,17 @@ public class UpdateAction extends ActionAbstract{
 				}
 				else
 					sb.append(value);
+				if(!a.equals(value)) {
+					OptionDialog op = new OptionDialog("Unesi validne podatke ili ste pokusaki da promenite primary key");
+					t.setValueAt(a, rowIndex, getColumnByName(t, prmk));
+					return;
+				}
 				PreparedStatement ps = connection.prepareStatement(sb.toString());
 				ps.executeUpdate();
 				System.out.println(sb.toString());
 			} catch (SQLException e1) {
 				r.getFields().putAll(mapaKopi);
-				OptionDialog op = new OptionDialog("Unesi validne podatke");
+				OptionDialog op = new OptionDialog("Unesi validne podatke ili ste pokusaki da promenite primary key");
 			}
 		}
 		AppCore.CloseConnection(connection);

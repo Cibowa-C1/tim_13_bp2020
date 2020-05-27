@@ -1,10 +1,15 @@
 package view;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import app.AppCore;
 import model.Row;
 import model.Table;
 
@@ -16,6 +21,7 @@ public class MyTableModel extends DefaultTableModel {
 	private Vector dataV;
 	private Vector columnV;
 	private int columnCount;
+
 	
 	private void updateModel() {
 		
@@ -57,5 +63,11 @@ public class MyTableModel extends DefaultTableModel {
 	    columnV.removeAllElements();
 	    fireTableDataChanged();
 	}
-
+	
+	private int getColumnByName(TableView table, String name) {
+	    for (int i = 0; i < table.getColumnCount(); ++i)
+	        if (table.getColumnName(i).equals(name))
+	            return i;
+	    return -1;
+	}
 }
