@@ -21,7 +21,6 @@ import observer.state.ObserverStates;
 public class TableView extends JTable implements IListener {
 	
 	private Table table;
-	private List<Row> rows;
 	private JTable jtable;
 	private MyTableModel tableModel;
 	private int sizeCol[][];
@@ -30,9 +29,8 @@ public class TableView extends JTable implements IListener {
 		if(t instanceof Table) {
 			table = (Table)t;
 			this.table = t;
-			rows = table.getRows();
 			tableModel = new MyTableModel();
-			tableModel.setRows(rows, table);
+			tableModel.setRows(this.getTable().getRows(), this.getTable());
 			this.setModel(tableModel);
 			this.setFillsViewportHeight(true);
 			sizeCol = new int[100][100];
@@ -41,9 +39,6 @@ public class TableView extends JTable implements IListener {
 		
 		}
 
-	public List<Row> getRows() {
-		return rows;
-	}
 
 	public int[][] getSizeCol() {
 		return sizeCol;
@@ -73,15 +68,13 @@ public class TableView extends JTable implements IListener {
 			Row row =(Row)obj;
 			
 			if(event==ObserverStates.ADD) {
-				rows.add(row);
-				tableModel.setRows(rows, this.getTable());
-				this.repaint();
-
+				tableModel.setRows(this.getTable().getRows(), this.getTable());
+				setModel(tableModel);
+				
 			} 
 			else if(event==ObserverStates.REMOVE){
-				rows.remove(row);
-				tableModel.setRows(rows, this.getTable());
-				this.repaint();
+				tableModel.setRows(this.getTable().getRows(), this.getTable());
+				setModel(tableModel);
 			}
 			else if(event==ObserverStates.UPDATE) {
 				

@@ -52,16 +52,5 @@ public class MyTableModel extends DefaultTableModel {
 	public int getColumnCount() {
 		return columnCount;
 	}
-	public void clear() {
-	    dataV.removeAllElements();
-	    fireTableDataChanged();
-	}
-	public void removeRow( int i ) {
-		dataV.remove(i);
-	    fireTableRowsDeleted(i,i);
-	}
-	public void addRow(Object o[]) {
-	     dataV.add(o);
-	     fireTableRowsInserted(rows.size()-1,rows.size()-1);
-	}
+
 }

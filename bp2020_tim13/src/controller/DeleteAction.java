@@ -79,7 +79,7 @@ public class DeleteAction extends ActionAbstract {
 				
 				OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary kljuca ove tabele pa se onda vrati da obrises ovaj red");
 			}
-			
+
 			table.removeRows(table.getRows().get(t.getSelectedRow()));
 			
 			AppCore.CloseConnection(connection);
