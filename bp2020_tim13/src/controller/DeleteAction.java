@@ -24,6 +24,7 @@ public class DeleteAction extends ActionAbstract {
 			MyTableModel mdl = (MyTableModel) t.getModel();
 			int index = t.getSelectedRow();
 			mdl.removeRow(index);
+			t.getTable().removeRows(t.getRows().get(index)); 
 		}
 
 	}

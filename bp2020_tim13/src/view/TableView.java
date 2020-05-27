@@ -15,8 +15,10 @@ import javax.swing.table.TableModel;
 import model.Column;
 import model.Row;
 import model.Table;
+import observer.IListener;
+import observer.state.ObserverStates;
 
-public class TableView extends JTable {
+public class TableView extends JTable implements IListener {
 	
 	private Table table;
 	private List<Row> rows;
@@ -64,7 +66,29 @@ public class TableView extends JTable {
 		i++;
 		}
 	}
-	
+
+	@Override
+	public void update(Object event, Object obj) {
+		if(obj instanceof Row) {
+			Row row =(Row)obj;
+			
+			if(event==ObserverStates.ADD) {
+				rows.add(row);
+				tableModel.fireTableRowsInserted(rows.size()-1,rows.size()-1);
+				this.repaint();
+
+			} 
+			else if(event==ObserverStates.REMOVE){
+				rows.remove(row);
+				//tableModel.fireTableRowsDeleted(getSelectedRow(), getSelectedRow());
+				this.repaint();
+			}
+			else if(event==ObserverStates.UPDATE) {
+				
+			}
+		}
+		MainFrame.getInstance().getdV().updateUI();
+	}
 }
 
 	
