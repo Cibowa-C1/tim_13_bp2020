@@ -48,19 +48,25 @@ public class DeleteAction extends ActionAbstract {
 			String value = (String) r.getFields().get(prmk);
 			Column c = table.getChildNode(prmk);
 			String query = null;
+			System.out.println(prmk);
 			System.out.println(value);
-			if(c.getType().equals(ColumnType.INT))
-			 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = "+Integer.parseInt(value);
+			System.out.println(c.getType());
+			if(c.getType().equals(ColumnType.NUMERIC) || (c.getType().equals(ColumnType.INT)))
+				query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = "+Integer.parseInt(value);
 			else if(c.getType().equals(ColumnType.FLOAT)) {
 				System.out.println(Float.parseFloat(value));
 				System.out.println(prmk);
 				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = "+Float.parseFloat(value);
 			}	
+			else 
+				 query = "DELETE FROM " + table.getName() +   " WHERE " + prmk + " = " + value;
+
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.executeUpdate();
 			}
 			catch(Exception es) {
-				OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary \nkljuca ove tabele pa se onda\n vrati da obrises ovaj red");
+				es.printStackTrace();
+				//OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary \nkljuca ove tabele pa se onda\n vrati da obrises ovaj red");
 			}
 			
 			table.removeRows(table.getRows().get(t.getSelectedRow()));
