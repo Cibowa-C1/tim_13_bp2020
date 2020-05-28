@@ -51,6 +51,10 @@ public class UpdateAction extends ActionAbstract{
 			
 			Table table = t.getTable();
 			Row r = table.getRows().get(t.getSelectedRow());
+			if(r==null) {
+				OptionDialog op = new OptionDialog("Izaberi red");
+				return;
+			}
 			mapaKopi.putAll(r.getFields());
 			int rowIndex = t.getSelectedRow();
 			

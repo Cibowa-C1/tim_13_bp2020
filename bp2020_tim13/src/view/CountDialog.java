@@ -4,6 +4,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -14,6 +18,8 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import app.AppCore;
+import model.Row;
 import model.Table;
 
 public class CountDialog extends JDialog {
@@ -45,9 +51,9 @@ public class CountDialog extends JDialog {
 		String val = null;
 		checkBoxes = new ArrayList<>();
 		columns = new Vector(tableView.getTable().getChildCount());
-		izabVr = new JLabel("Izaberite vrednosti za average: ");
+		izabVr = new JLabel("Izaberite vrednosti za Count: ");
 		btnOk = new JButton("Ok");
-		labela = new JLabel("Izaberite po cemu radite Average funkciju: ");
+		labela = new JLabel("Izaberite po cemu radite Count funkciju: ");
 		izabVr.setPreferredSize(new Dimension(120, 20));
 		btnOk.setPreferredSize(new Dimension(120, 20));
 		labela.setPreferredSize(new Dimension(120, 20));
@@ -66,6 +72,7 @@ public class CountDialog extends JDialog {
 				continue;
 			check = new JCheckBox(columns.get(i).toString());
 			check.setPreferredSize(new Dimension(120, 20));
+			check.setName(columns.get(i).toString());
 			checkBoxes.add(check);
 			add(check);
 		}
@@ -80,7 +87,46 @@ public class CountDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				setVisible(false);
+				Connection connection = AppCore.startConnection();
+				StringBuilder query = new StringBuilder("SELECT COUNT("+ comboBox.getSelectedItem().toString()+")");
+				for (JCheckBox jCheckBox : checkBoxes) {
+					if(jCheckBox.isSelected()) {
+						query.append(", "+jCheckBox.getName());
+					}
+				}
+				query.append(" FROM " + tableView.getTable().getName() +" GROUP BY ");
+				boolean flag = true;
+				for (JCheckBox jCheckBox : checkBoxes) {
+					if(jCheckBox.isSelected()) {
+						if(flag) {
+						query.append(jCheckBox.getName());
+						flag=false;
+						}
+						else {
+							query.append(", "+jCheckBox.getName());
+						}
+					}
+				}
+				try {
+				PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+                ResultSet rs = preparedStatement.executeQuery();
+                List<Row> rows = new ArrayList<Row>();
+                while (rs.next()){
+
+                    Row row = new Row(tableView.getTable().getName());
+
+                    ResultSetMetaData resultSetMetaData = rs.getMetaData();
+                    for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+                    }
+                    rows.add(row);
+				}
+				}
+				catch(Exception es){
+					es.printStackTrace();
+				}
+				AppCore.CloseConnection(connection);
 				
 				
 				

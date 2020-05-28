@@ -36,7 +36,10 @@ public class DeleteAction extends ActionAbstract {
 			
 			Table table = t.getTable();
 			Row r = table.getRows().get(t.getSelectedRow());
-			
+			if(r==null) {
+				OptionDialog op = new OptionDialog("Izaberi red");
+				return;
+			}
 			Connection connection = AppCore.startConnection();
 			try {
 				String prmk = null;

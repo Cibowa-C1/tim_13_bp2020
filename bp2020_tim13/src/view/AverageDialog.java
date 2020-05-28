@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +21,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import app.AppCore;
 import model.Column;
 import model.ColumnType;
+import model.Row;
 import model.Table;
 
 public class AverageDialog extends JDialog {
@@ -82,6 +88,7 @@ public class AverageDialog extends JDialog {
 				continue;
 			check = new JCheckBox(columns2.get(i).toString());
 			check.setPreferredSize(new Dimension(120, 20));
+			check.setName(columns2.get(i).toString());
 			checkBoxes.add(check);
 			add(check);
 		}
@@ -96,11 +103,46 @@ public class AverageDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-				
-				
+				setVisible(false);
+				Connection connection = AppCore.startConnection();
+				StringBuilder query = new StringBuilder("SELECT AVG("+ comboBox.getSelectedItem().toString()+")");
+				for (JCheckBox jCheckBox : checkBoxes) {
+					if(jCheckBox.isSelected()) {
+						query.append(", "+jCheckBox.getName());
+					}
+				}
+				query.append(" FROM " + tableView.getTable().getName() +" GROUP BY ");
+				boolean flag = true;
+				for (JCheckBox jCheckBox : checkBoxes) {
+					if(jCheckBox.isSelected()) {
+						if(flag) {
+						query.append(jCheckBox.getName());
+						flag=false;
+						}
+						else {
+							query.append(", "+jCheckBox.getName());
+						}
+					}
+				}
+				try {
+				PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+                ResultSet rs = preparedStatement.executeQuery();
+                List<Row> rows = new ArrayList<Row>();
+                while (rs.next()){
+
+                    Row row = new Row(tableView.getTable().getName());
+
+                    ResultSetMetaData resultSetMetaData = rs.getMetaData();
+                    for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+                    }
+                    rows.add(row);
+				}
+				}
+				catch(Exception es){
+					es.printStackTrace();
+				}
+				AppCore.CloseConnection(connection);
 			}
 		});
 		
