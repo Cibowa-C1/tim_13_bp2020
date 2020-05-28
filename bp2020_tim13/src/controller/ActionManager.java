@@ -9,6 +9,7 @@ public class ActionManager {
 	private RelationAction relation;
 	private AverageAction average;
 	private CountAction count;
+	private SearchAction search;
 	
 	
 	public ActionManager() {
@@ -23,7 +24,11 @@ public class ActionManager {
 		relation = new RelationAction();
 		average = new AverageAction();
 		count = new CountAction();
+		search = new SearchAction();
 		
+	}
+	public SearchAction getSearch() {
+		return search;
 	}
 	public AverageAction getAverage() {
 		return average;
