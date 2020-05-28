@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 
 import view.CountDialog;
 import view.MainFrame;
+import view.SearchDialog;
 import view.TableView;
 
 public class SearchAction extends ActionAbstract {
@@ -23,7 +24,7 @@ public class SearchAction extends ActionAbstract {
 		if(o instanceof JScrollPane) {
 			JScrollPane scrl =(JScrollPane)o;
 			TableView t = (TableView) scrl.getViewport().getComponents()[0];
-			CountDialog cd = new CountDialog(t);
+			SearchDialog cd = new SearchDialog(t);
 		}	
 	}
 
