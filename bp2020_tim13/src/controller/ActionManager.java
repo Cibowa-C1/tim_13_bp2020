@@ -7,6 +7,8 @@ public class ActionManager {
 	private UpdateAction update;
 	private FilterSortAction filter;
 	private RelationAction relation;
+	private AverageAction average;
+	private CountAction count;
 	
 	
 	public ActionManager() {
@@ -19,7 +21,15 @@ public class ActionManager {
 		update = new UpdateAction();
 		filter = new FilterSortAction();
 		relation = new RelationAction();
+		average = new AverageAction();
+		count = new CountAction();
 		
+	}
+	public AverageAction getAverage() {
+		return average;
+	}
+	public CountAction getCount() {
+		return count;
 	}
 
 	public AddAction getAdd() {
