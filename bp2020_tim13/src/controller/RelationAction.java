@@ -30,6 +30,8 @@ public class RelationAction extends ActionAbstract{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		MainFrame.getInstance().getLowerTable().getJtp().removeAll();
+		MainFrame.getInstance().getLowerTable().getJtp().updateUI();
 		List<Table> tables = new ArrayList<Table>();
 		Component o = MainFrame.getInstance().getdV().getJtp().getSelectedComponent();
 		if(o instanceof JScrollPane) {
@@ -48,16 +50,34 @@ public class RelationAction extends ActionAbstract{
 					prmk = primKey.getString("COLUMN_NAME");
 			}
 				String value = (String) t.getValueAt(rowIndex, getColumnByName(t, prmk));
+				System.out.println("Potreban value je "+value);
 				for (Table tblMod : table.getDatabase().getChildren()) {
 					if(tblMod.getName().equals(table.getName())) continue;
 					if(tblMod.getChildNode(prmk)!=null) {
 						tables.add(tblMod);
 					}
 				}
-				
+				for (Table tblRel : tables) {
+					MainFrame.getInstance().getLowerTable().addTab(tblRel);
+					TableView tabView = MainFrame.getInstance().getLowerTable().getTableView();
+					int colindex = getColumnByName(tabView, prmk);
+					for (int i = 0; i < tabView.getRowCount(); i++) {
+						String val = (String) tabView.getValueAt(i, colindex);
+						if(val==null) {
+							tabView.getTableModel().removeRow(i);
+							 i=-1;
+						}
+						else if(!val.equals(value)) {
+							 tabView.getTableModel().removeRow(i);
+							 i=-1;
+						}
+					}
+					
+				}
 			}catch(Exception es) {
-				
+				es.printStackTrace();
 			}
+			AppCore.CloseConnection(connection);
 	}
 		
 	}

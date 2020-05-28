@@ -56,4 +56,7 @@ public class DatabaseView extends JPanel {
 		public JTabbedPane getJtp() {
 			return jtp;
 		}
+		public TableView getTableView() {
+			return tableView;
+		}
 }

@@ -114,7 +114,7 @@ public class MainFrame extends JFrame{
 		}
 	}
 	
-	public JPanel getLowerTable() {
+	public DatabaseView getLowerTable() {
 		return lowerTable;
 	}
 

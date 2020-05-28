@@ -70,4 +70,9 @@ public class MyTableModel extends DefaultTableModel {
 	            return i;
 	    return -1;
 	}
+	@Override
+	public void removeRow(int row) {
+		// TODO Auto-generated method stub
+		super.removeRow(row);
+	}
 }
