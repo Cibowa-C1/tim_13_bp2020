@@ -12,8 +12,8 @@ import view.TableView;
 public class SearchAction extends ActionAbstract {
 	
 	public SearchAction() {
-		putValue(NAME, "Add");
-		putValue(SHORT_DESCRIPTION, "Add");
+		putValue(NAME, "Search");
+		putValue(SHORT_DESCRIPTION, "Search");
 	}
 
 	@Override

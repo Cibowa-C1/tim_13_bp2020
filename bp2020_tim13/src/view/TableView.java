@@ -33,7 +33,7 @@ public class TableView extends JTable implements IListener {
 			tableModel.setRows(this.getTable().getRows(), this.getTable());
 			this.setModel(tableModel);
 			this.setFillsViewportHeight(true);
-			this.setPreferredSize(new Dimension(1000,387));
+			this.setPreferredSize(new Dimension(1000,367));
 			sizeCol = new int[100][100];
 			populatesize();
 			}
