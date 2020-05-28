@@ -37,6 +37,7 @@ public class AverageDialog extends JDialog {
 	private int selectedRow;
 	private int selectedColumn;
 	private List<JCheckBox> checkBoxes;
+	private List<Row> rows;
 	private JCheckBox check;
 	private JComboBox comboBox;
 	private Vector columns;
@@ -60,7 +61,8 @@ public class AverageDialog extends JDialog {
 		checkBoxes = new ArrayList<>();
 		columns = new Vector(tableView.getTable().getChildCount());
 		columns2 = new Vector(tableView.getTable().getChildCount());
-
+		rows = new ArrayList<Row>();
+		
 		izabVr = new JLabel("Izaberite vrednosti za average: ");
 		btnOk = new JButton("Ok");
 		labela = new JLabel("Izaberite po cemu radite Average funkciju: ");
@@ -127,7 +129,6 @@ public class AverageDialog extends JDialog {
 				try {
 				PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
                 ResultSet rs = preparedStatement.executeQuery();
-                List<Row> rows = new ArrayList<Row>();
                 while (rs.next()){
 
                     Row row = new Row(tableView.getTable().getName());
@@ -138,6 +139,7 @@ public class AverageDialog extends JDialog {
                     }
                     rows.add(row);
 				}
+                AVGResultDialog avgRes = new AVGResultDialog(rows,comboBox.getSelectedItem().toString());
 				}
 				catch(Exception es){
 					es.printStackTrace();

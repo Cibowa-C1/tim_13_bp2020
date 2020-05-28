@@ -122,6 +122,7 @@ public class CountDialog extends JDialog {
                     }
                     rows.add(row);
 				}
+                CNTResultDialog cntDialog = new CNTResultDialog(rows, comboBox.getSelectedItem().toString());
 				}
 				catch(Exception es){
 					es.printStackTrace();

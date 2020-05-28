@@ -37,6 +37,10 @@ public class Table implements MutableTreeNode, IObserver {
 		return rows;
 	}
 	
+	public void setRows(List<Row> rows) {
+		this.rows = rows;
+	}
+
 	public Column getChildNode(String s) {
 		for (Column column : children) {
 			if(column.getName().equals(s)) return column;
