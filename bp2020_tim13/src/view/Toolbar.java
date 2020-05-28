@@ -13,7 +13,7 @@ public class Toolbar extends JToolBar{
 		add(MainFrame.getInstance().getAm().getRelation());
 		add(MainFrame.getInstance().getAm().getCount());
 		add(MainFrame.getInstance().getAm().getAverage());
-
+		//
 	}
 
 }

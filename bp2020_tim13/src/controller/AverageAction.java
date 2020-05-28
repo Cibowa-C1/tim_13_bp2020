@@ -17,7 +17,7 @@ public class AverageAction extends ActionAbstract {
 			putValue(NAME, "Average");
 			putValue(SHORT_DESCRIPTION, "Average");
 	}
-	
+	////
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Component o = MainFrame.getInstance().getdV().getJtp().getSelectedComponent();
