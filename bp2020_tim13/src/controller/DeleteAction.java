@@ -49,6 +49,23 @@ public class DeleteAction extends ActionAbstract {
 				 prmk = primKey.getString("COLUMN_NAME");
 			}
 			String value = (String) r.getFields().get(prmk);
+			for(Table tbl:table.getDatabase().getChildren()) {
+				if(tbl.getName().equals(table.getName())) continue;
+				String query;
+				if(tbl.getChildNode(prmk)!=null) {
+					ColumnType ct = tbl.getChildNode(prmk).getType();
+					if(ct.equals(ColumnType.INT)||ct.equals(ColumnType.FLOAT)||ct.equals(ColumnType.NUMERIC))
+						 query = "UPDATE " + tbl.getName() + " SET " + tbl.getChildNode(prmk).getName() + " = NULL WHERE " + prmk +" = " +value;
+					else
+						 query = "UPDATE " + tbl.getName() + " SET " + tbl.getChildNode(prmk).getName() + " = NULL WHERE " + prmk +" = " +"'"+value+"'";						
+					PreparedStatement ps = connection.prepareStatement(query);
+					ps.executeUpdate();
+					for(Row rw:tbl.getRows()) {
+						rw.getFields().replace(prmk,value, null);
+					}
+				}
+			}
+			
 			Column c = table.getChildNode(prmk);
 			String query = null;
 			System.out.println(prmk);
@@ -79,10 +96,11 @@ public class DeleteAction extends ActionAbstract {
 			ps.executeUpdate();
 			int cnt = t.getSelectedRow();
 			mdl.removeRow(cnt);
-			table.removeRows(table.getRows().get(t.getSelectedRow()));
+			table.removeRows(r);
 			}
 			catch(Exception es) {
-				OptionDialog op = new OptionDialog("Obrisi sva pojavaljivanja primary kljuca ove tabele pa se onda vrati da obrises ovaj red");
+				//es.printStackTrace();
+				OptionDialog op = new OptionDialog("Druge tabele zavise od ovog kljuca ne mozes ga obrisati");
 			}
 
 			
