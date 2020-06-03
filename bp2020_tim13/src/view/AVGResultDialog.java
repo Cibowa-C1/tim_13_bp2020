@@ -33,7 +33,10 @@ public class AVGResultDialog extends JDialog {
 		tableView.setFillsViewportHeight(true);
 		TableRenderer tr = new TableRenderer();
 		tableView.setDefaultRenderer(Object.class, tr);
-		add(new JScrollPane(tableView));
+		tableView.setPreferredSize(new Dimension(600, 2000));
+		JScrollPane scr = new JScrollPane(tableView);
+		scr.setPreferredSize(new Dimension(600, 2000));
+		add(scr);
 		setVisible(true);
 	}
 

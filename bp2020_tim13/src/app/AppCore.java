@@ -129,7 +129,15 @@ public class AppCore{
 				 }
 			}
 			
-			
+		for (Table t:database.getChildren()) {
+			if(t.getName().equals("COUNTRIES")) {
+				for (Row r : t.getRows()) {
+					r.getFields().entrySet().forEach(entry->{
+					    System.out.println(entry.getKey() + " " + entry.getValue());  
+					 });
+				}
+			}
+		}	
 		CloseConnection(connection);
 		try {
 			   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

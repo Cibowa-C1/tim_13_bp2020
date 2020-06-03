@@ -12,6 +12,7 @@ import java.util.function.BiFunction;
 
 import javax.swing.JScrollPane;
 
+import action.repository.Repository;
 import app.AppCore;
 import model.Column;
 import model.ColumnType;
@@ -38,6 +39,7 @@ public class UpdateAction extends ActionAbstract{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Repository rep = new Repository();
 		Connection connection=null;
 		HashMap<String, Object> mapaKopi = new HashMap<String, Object>();
 		
@@ -118,8 +120,7 @@ public class UpdateAction extends ActionAbstract{
 					t.setValueAt(a, rowIndex, getColumnByName(t, prmk));
 					return;
 				}
-				PreparedStatement ps = connection.prepareStatement(sb.toString());
-				ps.executeUpdate();
+				rep.updateQuery(connection, sb.toString());
 				System.out.println(sb.toString());
 			} catch (SQLException e1) {
 				r.getFields().putAll(mapaKopi);

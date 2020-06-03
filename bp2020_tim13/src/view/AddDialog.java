@@ -24,6 +24,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import action.repository.Repository;
 import app.AppCore;
 import model.Column;
 import model.ColumnLimit;
@@ -61,8 +62,10 @@ public class AddDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i=0;
+				
 				setVisible(false);
+				Repository rep = new Repository();
+				int i=0;
 				StringBuilder query = new StringBuilder("INSERT INTO " + table.getName()+ " (");
 				Iterator<JTextField> iterText = cells.iterator();
 				Iterator<Column> iterColumns = table.getChildren().iterator();
@@ -109,7 +112,7 @@ public class AddDialog extends JDialog {
 				Connection connection = AppCore.startConnection();
 				Row row = new Row(table.getName());
 				try {
-					PreparedStatement ps = connection.prepareStatement(query.toString());
+					PreparedStatement ps = rep.prepExecute(connection, query.toString());
 					int u=1;
 					Iterator<JTextField> iterText2 = cells.iterator();
 					Iterator<Column> iterColumns2 = table.getChildren().iterator();
@@ -214,4 +217,5 @@ public class AddDialog extends JDialog {
 	    return true;
 	}
 
+	
 }

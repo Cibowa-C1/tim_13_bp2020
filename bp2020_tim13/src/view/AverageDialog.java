@@ -21,6 +21,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import action.repository.Repository;
 import app.AppCore;
 import model.Column;
 import model.ColumnType;
@@ -106,6 +107,7 @@ public class AverageDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				Repository rep = new Repository();
 				Connection connection = AppCore.startConnection();
 				StringBuilder query = new StringBuilder("SELECT AVG("+ comboBox.getSelectedItem().toString()+")");
 				for (JCheckBox jCheckBox : checkBoxes) {
@@ -127,19 +129,18 @@ public class AverageDialog extends JDialog {
 					}
 				}
 				try {
-				PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
-                ResultSet rs = preparedStatement.executeQuery();
-                while (rs.next()){
+				ResultSet rs = rep.ExcecuteBaseQuery(connection, query.toString());
+		        while (rs.next()){
 
-                    Row row = new Row(tableView.getTable().getName());
+		            Row row = new Row(tableView.getTable().getName());
 
-                    ResultSetMetaData resultSetMetaData = rs.getMetaData();
-                    for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
-                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
-                    }
-                    rows.add(row);
+		            ResultSetMetaData resultSetMetaData = rs.getMetaData();
+		            for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+		                row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+		            }
+		            rows.add(row);
 				}
-                AVGResultDialog avgRes = new AVGResultDialog(rows,comboBox.getSelectedItem().toString());
+		        AVGResultDialog avgRes = new AVGResultDialog(rows,comboBox.getSelectedItem().toString());
 				}
 				catch(Exception es){
 					es.printStackTrace();

@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 
+import action.repository.Repository;
 import app.AppCore;
 import model.Column;
 import model.ColumnType;
@@ -40,6 +41,7 @@ public class DeleteAction extends ActionAbstract {
 				OptionDialog op = new OptionDialog("Izaberi red");
 				return;
 			}
+			Repository rep = new Repository();
 			Connection connection = AppCore.startConnection();
 			try {
 				String prmk = null;
@@ -58,8 +60,7 @@ public class DeleteAction extends ActionAbstract {
 						 query = "UPDATE " + tbl.getName() + " SET " + tbl.getChildNode(prmk).getName() + " = NULL WHERE " + prmk +" = " +value;
 					else
 						 query = "UPDATE " + tbl.getName() + " SET " + tbl.getChildNode(prmk).getName() + " = NULL WHERE " + prmk +" = " +"'"+value+"'";						
-					PreparedStatement ps = connection.prepareStatement(query);
-					ps.executeUpdate();
+					rep.updateQuery(connection, query.toString());
 					for(Row rw:tbl.getRows()) {
 						rw.getFields().replace(prmk,value, null);
 					}
@@ -105,7 +106,7 @@ public class DeleteAction extends ActionAbstract {
 
 			
 			
-			AppCore.CloseConnection(connection);
+			AppCore.CloseConnection(connection);		
 		}
 
 	}

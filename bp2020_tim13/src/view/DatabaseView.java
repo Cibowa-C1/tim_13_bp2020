@@ -43,10 +43,13 @@ public class DatabaseView extends JPanel {
 		public void addTab(Table t) {
 			model = new MyTableModel();
 			tableView = new TableView(t);
+			tableView.setPreferredSize(new Dimension(1000,2000));
 			tables.add(tableView);
 			tr = new TableRenderer();
 			tableView.setDefaultRenderer(Object.class, tr);
-			jtp.addTab(t.getName(), new JScrollPane(tableView));
+			JScrollPane scr = new JScrollPane(tableView);
+			scr.setPreferredSize(new Dimension(1000,1000));
+			jtp.addTab(t.getName(), scr);
 
 			this.updateUI();
 		}

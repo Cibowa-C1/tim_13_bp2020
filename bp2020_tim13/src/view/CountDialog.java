@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import action.repository.Repository;
 import app.AppCore;
 import model.Row;
 import model.Table;
@@ -88,6 +89,7 @@ public class CountDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				Repository rep = new Repository();
 				Connection connection = AppCore.startConnection();
 				StringBuilder query = new StringBuilder("SELECT COUNT("+ comboBox.getSelectedItem().toString()+")");
 				for (JCheckBox jCheckBox : checkBoxes) {
@@ -109,28 +111,24 @@ public class CountDialog extends JDialog {
 					}
 				}
 				try {
-				PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
-                ResultSet rs = preparedStatement.executeQuery();
-                List<Row> rows = new ArrayList<Row>();
-                while (rs.next()){
+		        ResultSet rs = rep.ExcecuteBaseQuery(connection, query.toString());
+		        List<Row> rows = new ArrayList<Row>();
+		        while (rs.next()){
 
-                    Row row = new Row(tableView.getTable().getName());
+		            Row row = new Row(tableView.getTable().getName());
 
-                    ResultSetMetaData resultSetMetaData = rs.getMetaData();
-                    for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
-                        row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
-                    }
-                    rows.add(row);
+		            ResultSetMetaData resultSetMetaData = rs.getMetaData();
+		            for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+		                row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+		            }
+		            rows.add(row);
 				}
-                CNTResultDialog cntDialog = new CNTResultDialog(rows, comboBox.getSelectedItem().toString());
+		        CNTResultDialog cntDialog = new CNTResultDialog(rows, comboBox.getSelectedItem().toString());
 				}
 				catch(Exception es){
 					es.printStackTrace();
 				}
 				AppCore.CloseConnection(connection);
-				
-				
-				
 				
 			}
 		});

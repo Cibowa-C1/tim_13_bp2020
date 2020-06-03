@@ -21,6 +21,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import action.repository.Repository;
 import app.AppCore;
 import model.Column;
 import model.ColumnType;
@@ -43,8 +44,10 @@ public class SearchDialog extends JDialog {
 	private JButton done;
 	private StringBuilder sb;
 	private boolean flag;
+	private Repository rep;
 	public SearchDialog(TableView tableView) {
 		try {
+			rep = new Repository();
 			colName=new JLabel("Column name");
 			operationName=new JLabel("Operation");
 			value = new JLabel("Value");
@@ -153,8 +156,8 @@ public class SearchDialog extends JDialog {
 					Connection connection = AppCore.startConnection();
 					try {
 						System.out.println(sb.toString());
-						PreparedStatement ps = connection.prepareStatement(sb.toString());
-						ResultSet rs = ps.executeQuery();
+						
+						ResultSet rs = rep.ExcecuteBaseQuery(connection, sb.toString());
 						List<Row> rows = new ArrayList<Row>();
 			                while (rs.next()){
 
